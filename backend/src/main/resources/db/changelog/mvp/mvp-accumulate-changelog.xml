@@ -1,0 +1,24 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="create-tables/mvp-create-soft-groups-table-changelog.xml" relativeToChangelogFile="true"/>
+    <include file="create-tables/mvp-create-soft-skills-table-changelog.xml" relativeToChangelogFile="true"/>
+
+    <include file="load-data/mvp-soft-groups-load-data.xml" relativeToChangelogFile="true"/>
+    <include file="load-data/mvp-soft-skills-load-data.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-tables/mvp-create-roles-table-changelog.xml" relativeToChangelogFile="true"/>
+    <include file="create-tables/mvp-create-hard-skills-table-changelog.xml" relativeToChangelogFile="true"/>
+    <include file="create-tables/mvp-create-hard-skills-roles-table-changelog.xml" relativeToChangelogFile="true"/>
+
+    <include file="load-data/mvp-roles-load-data.xml" relativeToChangelogFile="true"/>
+    <include file="load-data/mvp-hard-skills-load-data.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-tables/mvp-create-hard-indicators-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="load-data/mvp-hard-indicators-load-data.xml" relativeToChangelogFile="true"/>
+    <include file="load-data/mvp-hard-skills-roles-load-data.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
