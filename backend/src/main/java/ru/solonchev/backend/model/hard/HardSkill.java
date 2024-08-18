@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.solonchev.backend.model.roles.Role;
+import ru.solonchev.backend.model.role.Role;
 
 import java.util.ArrayList;
 import java.util.List;

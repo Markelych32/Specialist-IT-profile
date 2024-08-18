@@ -1,4 +1,4 @@
-package ru.solonchev.backend.model.roles;
+package ru.solonchev.backend.model.role;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
