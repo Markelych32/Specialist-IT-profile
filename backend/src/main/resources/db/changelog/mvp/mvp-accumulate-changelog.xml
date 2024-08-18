@@ -21,4 +21,7 @@
     <include file="load-data/mvp-hard-indicators-load-data.xml" relativeToChangelogFile="true"/>
     <include file="load-data/mvp-hard-skills-roles-load-data.xml" relativeToChangelogFile="true"/>
 
+    <include file="create-tables/mvp-create-posts-table-changelog.xml" relativeToChangelogFile="true"/>
+    <include file="load-data/mvp-posts-load-data.xml" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>
