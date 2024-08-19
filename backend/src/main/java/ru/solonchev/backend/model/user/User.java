@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.solonchev.backend.model.mark.HardSkillMark;
 import ru.solonchev.backend.model.mark.SoftSkillMark;
 import ru.solonchev.backend.model.role.Role;
 
@@ -44,4 +45,6 @@ public class User {
     private String specialization;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SoftSkillMark> softSkillMarks = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<HardSkillMark> hardSkillMarks = new ArrayList<>();
 }
