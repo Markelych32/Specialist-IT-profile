@@ -35,7 +35,7 @@ public class HardSkill {
     private List<Role> roles = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "skill_id")
-    private List<Indicator> indicators = new ArrayList<>();
+    private List<HardIndicator> indicators = new ArrayList<>();
 
     public void addRole(Role role) {
         roles.add(role);

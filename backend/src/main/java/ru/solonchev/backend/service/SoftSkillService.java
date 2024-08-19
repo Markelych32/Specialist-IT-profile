@@ -9,7 +9,6 @@ import ru.solonchev.backend.model.soft.SoftSkill;
 import ru.solonchev.backend.repository.soft.SoftGroupRepository;
 import ru.solonchev.backend.repository.soft.SoftSkillRepository;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -20,7 +19,7 @@ public class SoftSkillService {
     private final SoftSkillRepository softSkillRepository;
 
 
-    public SoftGroupsDto getAllSoftGroups() {
+    public SoftGroupsDto findAllSoftGroups() {
         return new SoftGroupsDto(
                 softGroupRepository
                         .findAll()
@@ -30,8 +29,8 @@ public class SoftSkillService {
         );
     }
 
-    public SoftGroupWithSkillsDto getSoftSkillsByGroupName(String groupName) {
-        SoftGroup softGroup = softGroupRepository.findSoftGroupByGroupName(groupName).orElseThrow(() -> new RuntimeException("ds"));
+    public SoftGroupWithSkillsDto findSoftSkillsByGroupName(String groupName) {
+        SoftGroup softGroup = softGroupRepository.findSoftGroupByGroupName(groupName).orElseThrow(() -> new RuntimeException("Soft group not found"));
         List<String> softSkillsName = softGroup
                 .getSkills()
                 .stream()

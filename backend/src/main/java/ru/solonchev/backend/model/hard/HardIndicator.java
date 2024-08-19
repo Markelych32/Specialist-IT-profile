@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "hard_indicators")
-public class Indicator {
+public class HardIndicator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
