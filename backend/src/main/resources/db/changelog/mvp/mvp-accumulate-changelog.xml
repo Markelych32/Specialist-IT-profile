@@ -25,5 +25,7 @@
     <include file="load-data/mvp-posts-load-data.xml" relativeToChangelogFile="true"/>
 
     <include file="create-tables/mvp-create-users-table-changelog.xml" relativeToChangelogFile="true"/>
+    <include file="create-tables/mvp-create-marks-of-users-soft-skills-table-changelog.xml"
+             relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

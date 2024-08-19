@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.solonchev.backend.model.mark.SoftSkillMark;
 import ru.solonchev.backend.model.role.Role;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,4 +42,6 @@ public class User {
     private Role role;
     @Column(nullable = false, length = 512)
     private String specialization;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SoftSkillMark> softSkillMarks = new ArrayList<>();
 }

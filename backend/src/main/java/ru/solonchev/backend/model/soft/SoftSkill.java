@@ -18,4 +18,5 @@ public class SoftSkill {
     private int id;
     @Column(name = "skill_name", nullable = false, unique = true, length = 512)
     private String skillName;
+
 }
