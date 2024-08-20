@@ -25,6 +25,6 @@ public class HardSkillMark {
     @ManyToOne
     @JoinColumn(name = "skill_id", nullable = false)
     private HardSkill hardSkill;
-    @Column(name = "mark", columnDefinition = "INT DEFAULT 0 CHECK (mark IN (-1, 0, 1, 2, 3))")
+    @Column(name = "mark", columnDefinition = "INT DEFAULT 0 CHECK (mark IN (0, 1, 2, 3))")
     private int mark;
 }

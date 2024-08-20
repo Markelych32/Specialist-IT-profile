@@ -18,7 +18,6 @@ public class SoftGroup {
     private int id;
     @Column(name = "group_name", nullable = false, unique = true, length = 512)
     private String groupName;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "softGroup")
     private List<SoftSkill> skills = new ArrayList<>();
 }

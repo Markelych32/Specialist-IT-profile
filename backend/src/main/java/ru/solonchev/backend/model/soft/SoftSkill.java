@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,5 +21,8 @@ public class SoftSkill {
     private int id;
     @Column(name = "skill_name", nullable = false, unique = true, length = 512)
     private String skillName;
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private SoftGroup softGroup;
 
 }

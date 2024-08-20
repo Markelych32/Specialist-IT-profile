@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="mvp-18" author="Solonchev Mark">
+        <loadData tableName="users"
+                  file="db/changelog/mvp/data/test-user-info-data.csv" separator=";"/>
+    </changeSet>
+
+    <changeSet id="mvp-19" author="Solonchev Mark">
+        <loadData tableName="marks_of_users_soft_skills"
+                  file="db/changelog/mvp/data/test-user-soft-marks-data.csv" separator=";"/>
+    </changeSet>
+
+    <changeSet id="mvp-20" author="Solonchev Mark">
+        <loadData tableName="marks_of_users_hard_skills"
+                  file="db/changelog/mvp/data/test-user-hard-marks-data.csv" separator=";"/>
+    </changeSet>
+
+</databaseChangeLog>

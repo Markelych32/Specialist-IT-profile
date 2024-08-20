@@ -30,4 +30,7 @@
     <include file="create-tables/mvp-create-marks-of-users-hard-skills-table-changelog.xml"
              relativeToChangelogFile="true"/>
 
+    <include file="load-data/mvp-test-user-info-load-data.xml"
+             relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

@@ -31,10 +31,10 @@ public class User {
     private String patronymic;
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, columnDefinition = "VARCHAR CHECK (gender IN ('Мужской', 'Женский'))")
     private String gender;
     @Column(nullable = false, length = 128)
-    private String city;
+    private String location;
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
