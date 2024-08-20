@@ -2,11 +2,12 @@ package ru.solonchev.backend.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.solonchev.backend.model.role.Role;
-import ru.solonchev.backend.model.user.Post;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.time.LocalDate;
 
+@JsonPropertyOrder({"id", "firstName", "lastName", "patronymic", "dateOfBirth",
+        "gender", "location", "post", "role", "specialization"})
 public record UserDto(
         int id,
         @JsonProperty("first_name")
@@ -18,9 +19,9 @@ public record UserDto(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
         LocalDate dateOfBirth,
         String gender,
-        String city,
-        Post post,
-        Role role,
+        String location,
+        String post,
+        String role,
         String specialization
 ) {
 }

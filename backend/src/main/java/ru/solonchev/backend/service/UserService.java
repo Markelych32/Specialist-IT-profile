@@ -6,10 +6,10 @@ import ru.solonchev.backend.dto.mark.SoftGroupWithSkillsMarksDto;
 import ru.solonchev.backend.dto.mark.SoftSkillWithMarkDto;
 import ru.solonchev.backend.dto.mark.UserSoftSkillsMarksDto;
 import ru.solonchev.backend.dto.user.GeneralUserInfoDto;
+import ru.solonchev.backend.dto.user.UserDto;
 import ru.solonchev.backend.dto.user.UserJobInfoDto;
 import ru.solonchev.backend.model.mark.SoftSkillMark;
 import ru.solonchev.backend.model.soft.SoftGroup;
-import ru.solonchev.backend.model.soft.SoftSkill;
 import ru.solonchev.backend.model.user.User;
 import ru.solonchev.backend.repository.mark.HardSkillMarkRepository;
 import ru.solonchev.backend.repository.mark.SoftSkillMarkRepository;
@@ -73,6 +73,25 @@ public class UserService {
             );
         }
         return new UserSoftSkillsMarksDto(user.getId(), softMarks);
+    }
+
+    public List<UserDto> findAllUsers() {
+        return userRepository
+                .findAll()
+                .stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getPatronymic(),
+                        user.getDateOfBirth(),
+                        user.getGender(),
+                        user.getLocation(),
+                        user.getPost().getPostName(),
+                        user.getRole().getRoleName(),
+                        user.getSpecialization()
+                ))
+                .toList();
     }
 
 
