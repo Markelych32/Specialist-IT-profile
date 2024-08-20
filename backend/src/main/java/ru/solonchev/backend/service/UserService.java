@@ -2,17 +2,22 @@ package ru.solonchev.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.solonchev.backend.dto.mark.SoftGroupWithSkillsMarksDto;
-import ru.solonchev.backend.dto.mark.SoftSkillWithMarkDto;
-import ru.solonchev.backend.dto.mark.UserSoftSkillsMarksDto;
+import ru.solonchev.backend.dto.mark.hard.HardSkillWithMarkDto;
+import ru.solonchev.backend.dto.mark.hard.RoleWithSkillsMarksDto;
+import ru.solonchev.backend.dto.mark.hard.UserHardSkillsMarksDto;
+import ru.solonchev.backend.dto.mark.soft.SoftGroupWithSkillsMarksDto;
+import ru.solonchev.backend.dto.mark.soft.SoftSkillWithMarkDto;
+import ru.solonchev.backend.dto.mark.soft.UserSoftSkillsMarksDto;
 import ru.solonchev.backend.dto.user.GeneralUserInfoDto;
 import ru.solonchev.backend.dto.user.UserDto;
 import ru.solonchev.backend.dto.user.UserJobInfoDto;
+import ru.solonchev.backend.model.hard.HardIndicator;
+import ru.solonchev.backend.model.mark.HardSkillMark;
 import ru.solonchev.backend.model.mark.SoftSkillMark;
+import ru.solonchev.backend.model.role.Role;
 import ru.solonchev.backend.model.soft.SoftGroup;
 import ru.solonchev.backend.model.user.User;
-import ru.solonchev.backend.repository.mark.HardSkillMarkRepository;
-import ru.solonchev.backend.repository.mark.SoftSkillMarkRepository;
+import ru.solonchev.backend.repository.role.RoleRepository;
 import ru.solonchev.backend.repository.soft.SoftGroupRepository;
 import ru.solonchev.backend.repository.user.UserRepository;
 
@@ -27,8 +32,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final SoftGroupRepository softGroupRepository;
-    private final SoftSkillMarkRepository softSkillMarkRepository;
-    private final HardSkillMarkRepository hardSkillMarkRepository;
+    private final RoleRepository roleRepository;
 
     public GeneralUserInfoDto findGeneralInfoById(int id) {
         User user = userRepository
@@ -75,6 +79,24 @@ public class UserService {
         return new UserSoftSkillsMarksDto(user.getId(), softMarks);
     }
 
+    public UserHardSkillsMarksDto findHardSkillsWithMarksById(int id) {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<HardSkillMark> hardSkillMarks = user.getHardSkillMarks();
+        List<RoleWithSkillsMarksDto> hardMarks = new LinkedList<>();
+        for (Role role : roleRepository.findAll()) {
+            String roleName = role.getRoleName();
+            hardMarks.add(
+                    new RoleWithSkillsMarksDto(
+                            roleName,
+                            chooseByRoleName(hardSkillMarks, role)
+                    )
+            );
+        }
+        return new UserHardSkillsMarksDto(user.getId(), hardMarks);
+    }
+
     public List<UserDto> findAllUsers() {
         return userRepository
                 .findAll()
@@ -101,10 +123,38 @@ public class UserService {
     ) {
         return softSkillMarks
                 .stream()
-                .filter(s -> s.getSoftSkill().getSoftGroup().getGroupName().equals(softGroup.getGroupName()))
-                .map(x -> new SoftSkillWithMarkDto(x.getSoftSkill().getSkillName(), x.getMark()))
+                .filter(s -> s.getSoftSkill()
+                        .getSoftGroup()
+                        .getGroupName()
+                        .equals(softGroup.getGroupName()))
+                .map(x -> new SoftSkillWithMarkDto(
+                        x.getSoftSkill().getId(),
+                        x.getSoftSkill().getSkillName(),
+                        x.getMark()))
+                .sorted((s1, s2) -> s2.mark() - s1.mark())
                 .toList();
 
+    }
+
+    private List<HardSkillWithMarkDto> chooseByRoleName(
+            List<HardSkillMark> hardSkillMarks,
+            Role role
+    ) {
+        return hardSkillMarks
+                .stream()
+                .filter(s -> s.getHardSkill().getRoles()
+                        .stream().anyMatch(x -> x.getRoleName().equals(role.getRoleName())))
+                .map(x -> new HardSkillWithMarkDto(
+                        x.getHardSkill().getId(),
+                        x.getHardSkill().getSkillName(),
+                        x.getHardSkill().getGradeMethod(),
+                        x.getHardSkill().getDevelopMethod(),
+                        x.getMark(),
+                        x.getHardSkill().getIndicators()
+                                .stream()
+                                .map(HardIndicator::getIndicatorName).toList()))
+                .sorted((s1, s2) -> s2.mark() - s1.mark())
+                .toList();
     }
 
 

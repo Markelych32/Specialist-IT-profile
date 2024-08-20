@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.solonchev.backend.dto.mark.UserSoftSkillsMarksDto;
+import ru.solonchev.backend.dto.mark.hard.UserHardSkillsMarksDto;
+import ru.solonchev.backend.dto.mark.soft.UserSoftSkillsMarksDto;
 import ru.solonchev.backend.dto.user.GeneralUserInfoDto;
 import ru.solonchev.backend.dto.user.UserDto;
 import ru.solonchev.backend.dto.user.UserJobInfoDto;
@@ -30,7 +31,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findJobInfoById(id));
     }
 
-    @GetMapping("/users/marks/soft/{id}")
+    @GetMapping("/users/{id}/marks/soft")
     public ResponseEntity<UserSoftSkillsMarksDto> getSoftSkillsMarksByUserId(@PathVariable int id) {
         return ResponseEntity.ok(userService.findSoftSkillsWithMarksById(id));
     }
@@ -38,6 +39,11 @@ public class UserController {
     @GetMapping("/users/")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.findAllUsers());
+    }
+
+    @GetMapping("/users/{id}/marks/hard")
+    public ResponseEntity<UserHardSkillsMarksDto> getHardSkillsMarksByUserId(@PathVariable int id) {
+        return ResponseEntity.ok(userService.findHardSkillsWithMarksById(id));
     }
 
 }

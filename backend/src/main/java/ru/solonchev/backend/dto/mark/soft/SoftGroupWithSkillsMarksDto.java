@@ -1,4 +1,4 @@
-package ru.solonchev.backend.dto.mark;
+package ru.solonchev.backend.dto.mark.soft;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
