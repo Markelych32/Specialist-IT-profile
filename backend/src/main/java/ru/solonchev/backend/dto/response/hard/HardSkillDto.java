@@ -1,4 +1,4 @@
-package ru.solonchev.backend.dto.hard;
+package ru.solonchev.backend.dto.response.hard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

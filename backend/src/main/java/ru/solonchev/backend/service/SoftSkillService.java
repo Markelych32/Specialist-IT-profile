@@ -2,8 +2,8 @@ package ru.solonchev.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.solonchev.backend.dto.soft.SoftGroupWithSkillsDto;
-import ru.solonchev.backend.dto.soft.SoftGroupsDto;
+import ru.solonchev.backend.dto.response.soft.SoftGroupWithSkillsDto;
+import ru.solonchev.backend.dto.response.soft.SoftGroupsDto;
 import ru.solonchev.backend.model.soft.SoftGroup;
 import ru.solonchev.backend.model.soft.SoftSkill;
 import ru.solonchev.backend.repository.soft.SoftGroupRepository;

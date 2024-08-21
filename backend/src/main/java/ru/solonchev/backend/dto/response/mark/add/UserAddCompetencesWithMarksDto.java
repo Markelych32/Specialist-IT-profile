@@ -1,4 +1,4 @@
-package ru.solonchev.backend.dto.mark.add;
+package ru.solonchev.backend.dto.response.mark.add;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -10,6 +10,6 @@ public record UserAddCompetencesWithMarksDto(
         @JsonProperty("user_id")
         int id,
         @JsonProperty("add_competences")
-        List<AddCompetenceDto> addCompetences
+        List<AddCompetenceWithMarkDto> addCompetences
 ) {
 }

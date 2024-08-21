@@ -1,4 +1,4 @@
-package ru.solonchev.backend.dto.user;
+package ru.solonchev.backend.dto.response.user;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

@@ -6,10 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.solonchev.backend.dto.hard.RoleWithHardSkillsDto;
-import ru.solonchev.backend.dto.hard.RolesDto;
+import ru.solonchev.backend.dto.response.hard.AddCompetenceDto;
+import ru.solonchev.backend.dto.response.hard.RoleWithHardSkillsDto;
+import ru.solonchev.backend.dto.response.hard.RolesDto;
 import ru.solonchev.backend.service.HardSkillService;
 import ru.solonchev.backend.utils.TermConverter;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/specialist-profile")
@@ -30,5 +33,10 @@ public class HardSkillController {
         return ResponseEntity.ok(hardSkillService.findHardSkillsByRole(
                 TermConverter.convertRoleName(roleName))
         );
+    }
+
+    @GetMapping("/skills/add")
+    public ResponseEntity<List<AddCompetenceDto>> getAllAddCompetences() {
+        return ResponseEntity.ok(hardSkillService.findAllAddCompetence());
     }
 }

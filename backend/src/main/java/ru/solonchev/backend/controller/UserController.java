@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.solonchev.backend.dto.mark.add.UserAddCompetencesWithMarksDto;
-import ru.solonchev.backend.dto.mark.hard.UserHardSkillsMarksDto;
-import ru.solonchev.backend.dto.mark.soft.UserSoftSkillsMarksDto;
-import ru.solonchev.backend.dto.user.GeneralUserInfoDto;
-import ru.solonchev.backend.dto.user.UserDto;
-import ru.solonchev.backend.dto.user.UserJobInfoDto;
+import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
+import ru.solonchev.backend.dto.response.mark.hard.UserHardSkillsMarksDto;
+import ru.solonchev.backend.dto.response.mark.soft.UserSoftSkillsMarksDto;
+import ru.solonchev.backend.dto.response.user.GeneralUserInfoDto;
+import ru.solonchev.backend.dto.response.user.UserDto;
+import ru.solonchev.backend.dto.response.user.UserJobInfoDto;
 import ru.solonchev.backend.service.UserService;
 
 import java.util.List;

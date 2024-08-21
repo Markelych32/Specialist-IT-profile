@@ -1,13 +1,13 @@
-package ru.solonchev.backend.dto.mark.hard;
+package ru.solonchev.backend.dto.response.hard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public record RoleWithSkillsMarksDto(
+public record RoleWithHardSkillsDto(
         @JsonProperty("role_name")
         String roleName,
         @JsonProperty("hard_skills")
-        List<HardSkillWithMarkDto> hardSkills
+        List<HardSkillDto> hardSkills
 ) {
 }

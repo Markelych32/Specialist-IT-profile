@@ -2,13 +2,13 @@ package ru.solonchev.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.solonchev.backend.dto.hard.HardSkillDto;
-import ru.solonchev.backend.dto.hard.RoleWithHardSkillsDto;
-import ru.solonchev.backend.dto.hard.RolesDto;
+import ru.solonchev.backend.dto.response.hard.AddCompetenceDto;
+import ru.solonchev.backend.dto.response.hard.HardSkillDto;
+import ru.solonchev.backend.dto.response.hard.RoleWithHardSkillsDto;
+import ru.solonchev.backend.dto.response.hard.RolesDto;
 import ru.solonchev.backend.model.hard.HardIndicator;
 import ru.solonchev.backend.model.role.Role;
-import ru.solonchev.backend.repository.hard.HardIndicatorRepository;
-import ru.solonchev.backend.repository.hard.HardSkillRepository;
+import ru.solonchev.backend.repository.hard.AddCompetenceRepository;
 import ru.solonchev.backend.repository.role.RoleRepository;
 
 import java.util.LinkedList;
@@ -17,9 +17,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class HardSkillService {
-    private final HardSkillRepository hardSkillRepository;
     private final RoleRepository roleRepository;
-    private final HardIndicatorRepository hardIndicatorRepository;
+    private final AddCompetenceRepository addCompetenceRepository;
 
     public RolesDto findAllRoles() {
         return new RolesDto(
@@ -40,5 +39,16 @@ public class HardSkillService {
                                 .stream()
                                 .map(HardIndicator::getIndicatorName).toList())));
         return new RoleWithHardSkillsDto(roleName, hardSkillDtos);
+    }
+
+    public List<AddCompetenceDto> findAllAddCompetence() {
+        return addCompetenceRepository
+                .findAll()
+                .stream()
+                .map(c -> new AddCompetenceDto(
+                        c.getId(),
+                        c.getName(),
+                        c.getRole().getRoleName()
+                )).toList();
     }
 }

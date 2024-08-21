@@ -2,17 +2,17 @@ package ru.solonchev.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.solonchev.backend.dto.mark.add.AddCompetenceDto;
-import ru.solonchev.backend.dto.mark.add.UserAddCompetencesWithMarksDto;
-import ru.solonchev.backend.dto.mark.hard.HardSkillWithMarkDto;
-import ru.solonchev.backend.dto.mark.hard.RoleWithSkillsMarksDto;
-import ru.solonchev.backend.dto.mark.hard.UserHardSkillsMarksDto;
-import ru.solonchev.backend.dto.mark.soft.SoftGroupWithSkillsMarksDto;
-import ru.solonchev.backend.dto.mark.soft.SoftSkillWithMarkDto;
-import ru.solonchev.backend.dto.mark.soft.UserSoftSkillsMarksDto;
-import ru.solonchev.backend.dto.user.GeneralUserInfoDto;
-import ru.solonchev.backend.dto.user.UserDto;
-import ru.solonchev.backend.dto.user.UserJobInfoDto;
+import ru.solonchev.backend.dto.response.mark.add.AddCompetenceWithMarkDto;
+import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
+import ru.solonchev.backend.dto.response.mark.hard.HardSkillWithMarkDto;
+import ru.solonchev.backend.dto.response.mark.hard.RoleWithSkillsMarksDto;
+import ru.solonchev.backend.dto.response.mark.hard.UserHardSkillsMarksDto;
+import ru.solonchev.backend.dto.response.mark.soft.SoftGroupWithSkillsMarksDto;
+import ru.solonchev.backend.dto.response.mark.soft.SoftSkillWithMarkDto;
+import ru.solonchev.backend.dto.response.mark.soft.UserSoftSkillsMarksDto;
+import ru.solonchev.backend.dto.response.user.GeneralUserInfoDto;
+import ru.solonchev.backend.dto.response.user.UserDto;
+import ru.solonchev.backend.dto.response.user.UserJobInfoDto;
 import ru.solonchev.backend.model.hard.HardIndicator;
 import ru.solonchev.backend.model.mark.HardSkillMark;
 import ru.solonchev.backend.model.mark.SoftSkillMark;
@@ -126,7 +126,7 @@ public class UserService {
                 user.getId(),
                 user.getAddCompetences()
                         .stream()
-                        .map(addCompetence -> new AddCompetenceDto(
+                        .map(addCompetence -> new AddCompetenceWithMarkDto(
                                 addCompetence.getId(),
                                 addCompetence.getName(),
                                 addCompetence.getRole().getRoleName(),
