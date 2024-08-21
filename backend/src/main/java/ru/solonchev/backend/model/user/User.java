@@ -47,4 +47,7 @@ public class User {
     private List<SoftSkillMark> softSkillMarks = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<HardSkillMark> hardSkillMarks = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private List<AddCompetence> addCompetences = new ArrayList<>();
 }

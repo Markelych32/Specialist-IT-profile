@@ -25,7 +25,7 @@ public class SoftSkillController {
                         .findSoftSkillsByGroupName(TermConverter.covertSoftGroupName(groupName)));
     }
 
-    @GetMapping("/")
+    @GetMapping("/groups")
     public ResponseEntity<SoftGroupsDto> getAllSoftGroups() {
         return ResponseEntity.ok(softSkillService.findAllSoftGroups());
     }

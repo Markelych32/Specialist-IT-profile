@@ -2,6 +2,8 @@ package ru.solonchev.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.solonchev.backend.dto.mark.add.AddCompetenceDto;
+import ru.solonchev.backend.dto.mark.add.UserAddCompetencesWithMarksDto;
 import ru.solonchev.backend.dto.mark.hard.HardSkillWithMarkDto;
 import ru.solonchev.backend.dto.mark.hard.RoleWithSkillsMarksDto;
 import ru.solonchev.backend.dto.mark.hard.UserHardSkillsMarksDto;
@@ -114,6 +116,25 @@ public class UserService {
                         user.getSpecialization()
                 ))
                 .toList();
+    }
+
+    public UserAddCompetencesWithMarksDto getAddCompetencesOfUserById(int id) {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserAddCompetencesWithMarksDto(
+                user.getId(),
+                user.getAddCompetences()
+                        .stream()
+                        .map(addCompetence -> new AddCompetenceDto(
+                                addCompetence.getId(),
+                                addCompetence.getName(),
+                                addCompetence.getRole().getRoleName(),
+                                addCompetence.getMark()
+                        ))
+                        .sorted((s1, s2) -> s2.mark() - s1.mark())
+                        .toList()
+        );
     }
 
 

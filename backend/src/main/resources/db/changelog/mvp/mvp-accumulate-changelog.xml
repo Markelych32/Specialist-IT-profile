@@ -33,4 +33,9 @@
     <include file="load-data/mvp-test-user-info-load-data.xml"
              relativeToChangelogFile="true"/>
 
+    <include file="create-tables/mvp-create-add-competences-table-changelog.xml"
+             relativeToChangelogFile="true"/>
+    <include file="load-data/mvp-test-add-competences-load-data.xml"
+             relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

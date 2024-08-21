@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.solonchev.backend.model.hard.HardSkill;
+import ru.solonchev.backend.model.user.AddCompetence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,8 @@ public class Role {
     private String description;
     @ManyToMany(mappedBy = "roles")
     private List<HardSkill> hardSkills = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+    private List<AddCompetence> addCompetences = new ArrayList<>();
 
     public void addHardSkill(HardSkill hardSkill) {
         hardSkills.add(hardSkill);
