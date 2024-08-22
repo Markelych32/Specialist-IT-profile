@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.request.FindAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.response.hard.AddCompetenceDto;
 import ru.solonchev.backend.dto.response.hard.RoleWithHardSkillsDto;
@@ -18,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/specialist-profile")
 @RequiredArgsConstructor
+@CrossOrigin
 public class HardSkillController {
 
     private final HardSkillService hardSkillService;

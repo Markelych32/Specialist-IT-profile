@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/specialist-profile")
 @RequiredArgsConstructor
+@CrossOrigin
 public class UserController {
     private final UserService userService;
     private final HardSkillService hardSkillService;
@@ -70,6 +71,4 @@ public class UserController {
         hardSkillService.changeMarkAtUser(userId, request);
         return ResponseEntity.ok().build();
     }
-
-
 }
