@@ -1,7 +1,6 @@
 package ru.solonchev.backend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solonchev.backend.dto.request.FindAddCompetenceRequestDto;
@@ -17,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/specialist-profile")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*",
+@CrossOrigin(origins = "http://localhost:9000", allowedHeaders = "*",
         methods = {RequestMethod.GET, RequestMethod.POST,
                 RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class HardSkillController {
