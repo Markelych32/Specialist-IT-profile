@@ -2,16 +2,16 @@ package ru.solonchev.backend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
+import ru.solonchev.backend.dto.request.ChangeMarkHardSkillRequest;
 import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
 import ru.solonchev.backend.dto.response.mark.hard.UserHardSkillsMarksDto;
 import ru.solonchev.backend.dto.response.mark.soft.UserSoftSkillsMarksDto;
 import ru.solonchev.backend.dto.response.user.GeneralUserInfoDto;
 import ru.solonchev.backend.dto.response.user.UserDto;
 import ru.solonchev.backend.dto.response.user.UserJobInfoDto;
+import ru.solonchev.backend.service.HardSkillService;
 import ru.solonchev.backend.service.UserService;
 
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final HardSkillService hardSkillService;
 
     @GetMapping("/users/general/{id}")
     public ResponseEntity<GeneralUserInfoDto> getGeneralInfoByUserId(@PathVariable int id) {
@@ -51,5 +52,24 @@ public class UserController {
     public ResponseEntity<UserAddCompetencesWithMarksDto> getAddSkillsMarksByUserId(@PathVariable int id) {
         return ResponseEntity.ok(userService.getAddCompetencesOfUserById(id));
     }
+
+    @PostMapping("/users/{id}/skills/add")
+    public ResponseEntity<Void> appendAddSkillToUser(
+            @PathVariable(name = "id") int userId,
+            @RequestBody AppendAddCompetenceRequestDto requestDto
+    ) {
+        hardSkillService.addNewSkillToUser(userId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/users/{id}/skills/hard")
+    public ResponseEntity<Void> changeMarkHardSkill(
+            @PathVariable(name = "id") int userId,
+            @RequestBody ChangeMarkHardSkillRequest request
+    ) {
+        hardSkillService.changeMarkAtUser(userId, request);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

@@ -49,11 +49,4 @@ public class HardSkillController {
                 requestDto.competenceName()));
     }
 
-    @PostMapping("/skills/add")
-    public ResponseEntity<Void> appendAddSkillToUser(
-            @RequestBody AppendAddCompetenceRequestDto requestDto
-    ) {
-        hardSkillService.addNewSkillToUser(requestDto);
-        return ResponseEntity.ok().build();
-    }
 }
