@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/specialist-profile")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class HardSkillController {
 
     private final HardSkillService hardSkillService;

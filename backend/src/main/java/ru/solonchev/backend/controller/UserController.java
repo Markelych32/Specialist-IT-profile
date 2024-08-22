@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/specialist-profile")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
     private final UserService userService;
     private final HardSkillService hardSkillService;

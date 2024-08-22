@@ -11,7 +11,7 @@ import ru.solonchev.backend.utils.TermConverter;
 @RestController
 @RequestMapping("/specialist-profile/skills/soft")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class SoftSkillController {
 
     private final SoftSkillService softSkillService;
