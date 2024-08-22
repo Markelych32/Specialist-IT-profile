@@ -1,14 +1,15 @@
 package ru.solonchev.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
+import ru.solonchev.backend.dto.request.FindAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.response.hard.AddCompetenceDto;
 import ru.solonchev.backend.dto.response.hard.RoleWithHardSkillsDto;
 import ru.solonchev.backend.dto.response.hard.RolesDto;
+import ru.solonchev.backend.dto.response.hard.SuitableRoleDto;
 import ru.solonchev.backend.service.HardSkillService;
 import ru.solonchev.backend.utils.TermConverter;
 
@@ -38,5 +39,21 @@ public class HardSkillController {
     @GetMapping("/skills/add")
     public ResponseEntity<List<AddCompetenceDto>> getAllAddCompetences() {
         return ResponseEntity.ok(hardSkillService.findAllAddCompetence());
+    }
+
+    @PostMapping("/skills/add/suitable")
+    public ResponseEntity<List<SuitableRoleDto>> getSuitableRoles(
+            @RequestBody FindAddCompetenceRequestDto requestDto
+    ) {
+        return ResponseEntity.ok(hardSkillService.findSuitableRolesForAddCompetency(
+                requestDto.competenceName()));
+    }
+
+    @PostMapping("/skills/add")
+    public ResponseEntity<Void> appendAddSkillToUser(
+            @RequestBody AppendAddCompetenceRequestDto requestDto
+    ) {
+        hardSkillService.addNewSkillToUser(requestDto);
+        return ResponseEntity.ok().build();
     }
 }

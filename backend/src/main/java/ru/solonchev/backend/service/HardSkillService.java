@@ -2,14 +2,15 @@ package ru.solonchev.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.solonchev.backend.dto.response.hard.AddCompetenceDto;
-import ru.solonchev.backend.dto.response.hard.HardSkillDto;
-import ru.solonchev.backend.dto.response.hard.RoleWithHardSkillsDto;
-import ru.solonchev.backend.dto.response.hard.RolesDto;
+import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
+import ru.solonchev.backend.dto.response.hard.*;
 import ru.solonchev.backend.model.hard.HardIndicator;
 import ru.solonchev.backend.model.role.Role;
+import ru.solonchev.backend.model.user.AddCompetence;
+import ru.solonchev.backend.model.user.User;
 import ru.solonchev.backend.repository.hard.AddCompetenceRepository;
 import ru.solonchev.backend.repository.role.RoleRepository;
+import ru.solonchev.backend.repository.user.UserRepository;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,8 +18,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class HardSkillService {
+
     private final RoleRepository roleRepository;
     private final AddCompetenceRepository addCompetenceRepository;
+    private final UserRepository userRepository;
+
 
     public RolesDto findAllRoles() {
         return new RolesDto(
@@ -50,5 +54,28 @@ public class HardSkillService {
                         c.getName(),
                         c.getRole().getRoleName()
                 )).toList();
+    }
+
+    public List<SuitableRoleDto> findSuitableRolesForAddCompetency(String partName) {
+        return addCompetenceRepository
+                .findByNameContainingIgnoreCase(partName)
+                .stream()
+                .map(c -> new SuitableRoleDto(
+                        c.getId(),
+                        c.getName(),
+                        c.getRole().getRoleName()
+                )).toList();
+    }
+
+    public void addNewSkillToUser(AppendAddCompetenceRequestDto requestDto) {
+        User user = userRepository.findById(requestDto.userId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        AddCompetence newAddCompetence = AddCompetence.builder()
+                .name(requestDto.name())
+                .user(user)
+                .role(roleRepository.findById(requestDto.roleId()).orElseThrow((() -> new RuntimeException("Role not found"))))
+                .build();
+        user.getAddCompetences().add(newAddCompetence);
+        userRepository.save(user);
     }
 }

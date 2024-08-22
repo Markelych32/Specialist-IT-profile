@@ -1,14 +1,12 @@
 package ru.solonchev.backend.model.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ru.solonchev.backend.model.role.Role;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,6 +17,9 @@ public class AddCompetence {
     private int id;
     @Column(name = "name", nullable = false, length = 512, unique = true)
     private String name;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
