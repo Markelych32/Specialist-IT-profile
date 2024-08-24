@@ -3,7 +3,7 @@ package ru.solonchev.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
-import ru.solonchev.backend.dto.request.ChangeMarkHardSkillRequest;
+import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.dto.response.hard.*;
 import ru.solonchev.backend.model.hard.HardIndicator;
 import ru.solonchev.backend.model.mark.HardSkillMark;
@@ -87,12 +87,14 @@ public class HardSkillService {
         userRepository.save(user);
     }
 
-    public void changeMarkAtUser(int userId, ChangeMarkHardSkillRequest request) {
+    public void changeMarkAtUser(int userId, ChangeMarkSkillRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
         HardSkillMark hardSkillMark = hardSkillMarkRepository.findByHardSkill(
                 hardSkillRepository.findById(request.skillId()).orElseThrow(() -> new RuntimeException("Hard Skill not found"))
         ).orElseThrow(() -> new RuntimeException("Hard Skill Mark not found"));
+
         hardSkillMark.setMark(request.mark());
         hardSkillMarkRepository.save(hardSkillMark);
     }

@@ -3,6 +3,7 @@ package ru.solonchev.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.dto.request.FindAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.response.hard.AddCompetenceDto;
 import ru.solonchev.backend.dto.response.hard.RoleWithHardSkillsDto;
@@ -37,11 +38,6 @@ public class HardSkillController {
         );
     }
 
-    @GetMapping("/skills/add")
-    public ResponseEntity<List<AddCompetenceDto>> getAllAddCompetences() {
-        return ResponseEntity.ok(hardSkillService.findAllAddCompetence());
-    }
-
     @PostMapping("/skills/add/suitable")
     public ResponseEntity<List<SuitableRoleDto>> getSuitableRoles(
             @RequestBody FindAddCompetenceRequestDto requestDto
@@ -50,4 +46,12 @@ public class HardSkillController {
                 requestDto.competenceName()));
     }
 
+    @PutMapping("/users/{id}/marks/hard")
+    public ResponseEntity<Void> changeMarkHardSkill(
+            @PathVariable(name = "id") int userId,
+            @RequestBody ChangeMarkSkillRequest request
+    ) {
+        hardSkillService.changeMarkAtUser(userId, request);
+        return ResponseEntity.ok().build();
+    }
 }

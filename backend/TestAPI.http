@@ -1,0 +1,50 @@
+### Изменение оценки доп скилла
+PUT localhost:8080/specialist-profile/users/1/marks/add
+Content-Type: application/json
+
+{
+  "skill_id": 1,
+  "mark": 3
+}
+
+### Изменение оценки софт скилла
+PUT localhost:8080/specialist-profile/users/1/marks/soft
+Content-Type: application/json
+
+{
+  "skill_id": 1,
+  "mark": 3
+}
+
+### Изменение оценки хард скилла
+PUT localhost:8080/specialist-profile/users/1/marks/hard
+Content-Type: application/json
+
+{
+  "skill_id": 1,
+  "mark": 3
+}
+
+### Поиск подходящих доп скиллов по названию
+POST localhost:8080/specialist-profile/skills/add/suitable
+Content-Type: application/json
+
+{
+  "competence_name": "Алг"
+}
+
+
+### Получение всех хард скиллов для определенной роли
+GET localhost:8080/specialist-profile/skills/hard/backend
+
+### Получение всех ролей
+GET localhost:8080/specialist-profile/roles
+
+
+### Получение всех групп софт скиллов
+GET localhost:8080/specialist-profile/skills/soft/groups
+
+### Получение всех софт скиллов по определенной группе
+GET localhost:8080/specialist-profile/skills/soft/thinking
+
+

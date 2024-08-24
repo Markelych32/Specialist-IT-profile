@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
-import ru.solonchev.backend.dto.request.ChangeMarkHardSkillRequest;
+import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
 import ru.solonchev.backend.dto.response.mark.hard.UserHardSkillsMarksDto;
 import ru.solonchev.backend.dto.response.mark.soft.UserSoftSkillsMarksDto;
@@ -12,6 +12,7 @@ import ru.solonchev.backend.dto.response.user.GeneralUserInfoDto;
 import ru.solonchev.backend.dto.response.user.UserDto;
 import ru.solonchev.backend.dto.response.user.UserJobInfoDto;
 import ru.solonchev.backend.service.HardSkillService;
+import ru.solonchev.backend.service.SoftSkillService;
 import ru.solonchev.backend.service.UserService;
 
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final HardSkillService hardSkillService;
+    private final SoftSkillService softSkillService;
 
     @GetMapping("/users/general/{id}")
     public ResponseEntity<GeneralUserInfoDto> getGeneralInfoByUserId(@PathVariable int id) {
@@ -65,12 +67,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/users/{id}/skills/hard")
-    public ResponseEntity<Void> changeMarkHardSkill(
-            @PathVariable(name = "id") int userId,
-            @RequestBody ChangeMarkHardSkillRequest request
-    ) {
-        hardSkillService.changeMarkAtUser(userId, request);
-        return ResponseEntity.ok().build();
-    }
+
+
+
 }
