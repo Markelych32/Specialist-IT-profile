@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
+import ru.solonchev.backend.dto.response.mark.soft.UserSoftSkillsMarksDto;
 import ru.solonchev.backend.dto.response.soft.SoftGroupWithSkillsDto;
 import ru.solonchev.backend.dto.response.soft.SoftGroupsDto;
 import ru.solonchev.backend.service.SoftSkillService;
+import ru.solonchev.backend.service.UserService;
 import ru.solonchev.backend.utils.TermConverter;
 
 @RestController
@@ -18,6 +20,7 @@ import ru.solonchev.backend.utils.TermConverter;
 public class SoftSkillController {
 
     private final SoftSkillService softSkillService;
+    private final UserService userService;
 
     @GetMapping("/skills/soft/{groupName}")
     public ResponseEntity<SoftGroupWithSkillsDto> getSkillsOfGroup(@PathVariable String groupName) {
@@ -38,6 +41,11 @@ public class SoftSkillController {
     ) {
         softSkillService.changeMarkAtUser(userId, request);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/users/{id}/marks/soft")
+    public ResponseEntity<UserSoftSkillsMarksDto> getSoftSkillsMarksByUserId(@PathVariable int id) {
+        return ResponseEntity.ok(userService.findSoftSkillsWithMarksById(id));
     }
 }
 

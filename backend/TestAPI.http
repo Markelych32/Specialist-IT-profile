@@ -1,13 +1,9 @@
-### Изменение оценки доп скилла
-PUT localhost:8080/specialist-profile/users/1/marks/add
-Content-Type: application/json
+### SOFT SKILLS ENDPOINTS
 
-{
-  "skill_id": 1,
-  "mark": 3
-}
+### Получение всех групп софт скиллов
+GET localhost:8080/specialist-profile/skills/soft/groups
 
-### Изменение оценки софт скилла
+### Изменение оценки софт скилла пользователя
 PUT localhost:8080/specialist-profile/users/1/marks/soft
 Content-Type: application/json
 
@@ -15,6 +11,21 @@ Content-Type: application/json
   "skill_id": 1,
   "mark": 3
 }
+
+### Получение всех оценок софт скиллов пользователя
+GET localhost:8080/specialist-profile/users/1/marks/soft
+
+### Получение всех софт скиллов по определенной группе
+GET localhost:8080/specialist-profile/skills/soft/thinking
+
+
+### HARD SKILLS ENDPOINTS
+
+### Получение всех ролей
+GET localhost:8080/specialist-profile/roles
+
+### Получение всех оценок хард скиллов пользователя
+GET localhost:8080/specialist-profile/users/1/marks/hard
 
 ### Изменение оценки хард скилла
 PUT localhost:8080/specialist-profile/users/1/marks/hard
@@ -25,6 +36,11 @@ Content-Type: application/json
   "mark": 3
 }
 
+### Получение всех хард скиллов для определенной роли
+GET localhost:8080/specialist-profile/skills/hard/backend
+
+### ADD SKILL ENDPOINTS
+
 ### Поиск подходящих доп скиллов по названию
 POST localhost:8080/specialist-profile/skills/add/suitable
 Content-Type: application/json
@@ -33,18 +49,46 @@ Content-Type: application/json
   "competence_name": "Алг"
 }
 
+### Добавление дополнительного скилла пользователю
+POST localhost:8080/specialist-profile/users/1/skills/add
+Content-Type: application/json
 
-### Получение всех хард скиллов для определенной роли
-GET localhost:8080/specialist-profile/skills/hard/backend
+{
+  "skill_name": "Что то",
+  "role_id": 6
+}
 
-### Получение всех ролей
-GET localhost:8080/specialist-profile/roles
+### Получение всех оценок доп скиллов пользователя
+GET localhost:8080/specialist-profile/users/1/marks/add
+
+### Изменение оценки доп скилла пользователя
+PUT localhost:8080/specialist-profile/users/1/marks/add
+Content-Type: application/json
+
+{
+  "skill_id": 1,
+  "mark": 3
+}
+
+### USER ENDPOINTS
+
+### Метод полкчения всех пользователей
+GET localhost:8080/specialist-profile/users
+
+### Метод получения общей информации о пользователе
+GET localhost:8080/specialist-profile/users/general/1
+
+### Метод получения рабочей информации о пользователе
+GET localhost:8080/specialist-profile/users/working/1
 
 
-### Получение всех групп софт скиллов
-GET localhost:8080/specialist-profile/skills/soft/groups
 
-### Получение всех софт скиллов по определенной группе
-GET localhost:8080/specialist-profile/skills/soft/thinking
+
+
+
+
+
+
+
 
 

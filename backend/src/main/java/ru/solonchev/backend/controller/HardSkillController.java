@@ -5,11 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.dto.request.FindAddCompetenceRequestDto;
-import ru.solonchev.backend.dto.response.hard.AddCompetenceDto;
 import ru.solonchev.backend.dto.response.hard.RoleWithHardSkillsDto;
 import ru.solonchev.backend.dto.response.hard.RolesDto;
 import ru.solonchev.backend.dto.response.hard.SuitableRoleDto;
+import ru.solonchev.backend.dto.response.mark.hard.UserHardSkillsMarksDto;
 import ru.solonchev.backend.service.HardSkillService;
+import ru.solonchev.backend.service.UserService;
 import ru.solonchev.backend.utils.TermConverter;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 public class HardSkillController {
 
     private final HardSkillService hardSkillService;
+    private final UserService userService;
 
     @GetMapping("/roles")
     public ResponseEntity<RolesDto> getAllRoles() {
@@ -36,6 +38,11 @@ public class HardSkillController {
         return ResponseEntity.ok(hardSkillService.findHardSkillsByRole(
                 TermConverter.convertRoleName(roleName))
         );
+    }
+
+    @GetMapping("/users/{id}/marks/hard")
+    public ResponseEntity<UserHardSkillsMarksDto> getHardSkillsMarksByUserId(@PathVariable int id) {
+        return ResponseEntity.ok(userService.findHardSkillsWithMarksById(id));
     }
 
     @PostMapping("/skills/add/suitable")

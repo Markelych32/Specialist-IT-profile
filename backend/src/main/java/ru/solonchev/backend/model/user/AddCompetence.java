@@ -15,7 +15,7 @@ public class AddCompetence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "name", nullable = false, length = 512, unique = true)
+    @Column(name = "name", nullable = false, length = 512)
     private String name;
     @ManyToOne
     @JoinColumn(name = "user_id")

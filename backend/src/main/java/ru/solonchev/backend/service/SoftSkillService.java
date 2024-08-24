@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.dto.response.soft.SoftGroupWithSkillsDto;
 import ru.solonchev.backend.dto.response.soft.SoftGroupsDto;
-import ru.solonchev.backend.model.mark.HardSkillMark;
 import ru.solonchev.backend.model.mark.SoftSkillMark;
 import ru.solonchev.backend.model.soft.SoftGroup;
 import ru.solonchev.backend.model.soft.SoftSkill;

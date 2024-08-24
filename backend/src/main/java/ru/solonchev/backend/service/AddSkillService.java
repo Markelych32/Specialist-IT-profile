@@ -1,6 +1,5 @@
 package ru.solonchev.backend.service;
 
-import jakarta.websocket.server.ServerEndpoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
