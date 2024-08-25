@@ -7,8 +7,6 @@ import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
 import ru.solonchev.backend.service.AddSkillService;
-import ru.solonchev.backend.service.HardSkillService;
-import ru.solonchev.backend.service.UserService;
 
 @RestController
 @RequestMapping("/specialist-profile")
@@ -19,8 +17,6 @@ import ru.solonchev.backend.service.UserService;
 public class AddSkillController {
 
     private final AddSkillService addSkillService;
-    private final UserService userService;
-    private final HardSkillService hardSkillService;
 
     @PutMapping("/users/{id}/marks/add")
     public ResponseEntity<Void> changeMarkAddSkill(
@@ -33,7 +29,7 @@ public class AddSkillController {
 
     @GetMapping("/users/{id}/marks/add")
     public ResponseEntity<UserAddCompetencesWithMarksDto> getAddSkillsMarksByUserId(@PathVariable int id) {
-        return ResponseEntity.ok(userService.getAddCompetencesOfUserById(id));
+        return ResponseEntity.ok(addSkillService.getAddCompetencesOfUserById(id));
     }
 
     @PostMapping("/users/{id}/skills/add")

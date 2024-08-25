@@ -28,6 +28,21 @@ public final class DataUtils {
                 .build();
     }
 
+    public static User getNickEntityTransient() {
+        return User.builder()
+                .firstName("Никита")
+                .lastName("Кологривый")
+                .patronymic("Сергеевич")
+                .dateOfBirth(LocalDate.of(1994, 10, 16))
+                .gender("Мужской")
+                .location("Москва")
+                .post(new Post(1, "Intern"))
+                .role(Role.builder().roleName("QA Tester").build())
+                .specialization("Тестирование на Python")
+                .addCompetences(new ArrayList<>())
+                .build();
+    }
+
     public static User getStepanEntityPersisted() {
         return User.builder()
                 .id(1)
@@ -40,6 +55,22 @@ public final class DataUtils {
                 .post(new Post(1, "Senior"))
                 .role(Role.builder().roleName("Developer").build())
                 .specialization("Разработка на Go")
+                .addCompetences(new ArrayList<>())
+                .build();
+    }
+
+    public static User getNickEntityPersisted() {
+        return User.builder()
+                .id(1)
+                .firstName("Никита")
+                .lastName("Кологривый")
+                .patronymic("Сергеевич")
+                .dateOfBirth(LocalDate.of(1994, 10, 16))
+                .gender("Мужской")
+                .location("Москва")
+                .post(new Post(1, "Intern"))
+                .role(Role.builder().roleName("QA Tester").build())
+                .specialization("Тестирование на Python")
                 .addCompetences(new ArrayList<>())
                 .build();
     }

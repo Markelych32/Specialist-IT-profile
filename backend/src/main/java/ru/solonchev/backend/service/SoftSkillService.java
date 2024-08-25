@@ -3,6 +3,9 @@ package ru.solonchev.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
+import ru.solonchev.backend.dto.response.mark.soft.SoftGroupWithSkillsMarksDto;
+import ru.solonchev.backend.dto.response.mark.soft.SoftSkillWithMarkDto;
+import ru.solonchev.backend.dto.response.mark.soft.UserSoftSkillsMarksDto;
 import ru.solonchev.backend.dto.response.soft.SoftGroupWithSkillsDto;
 import ru.solonchev.backend.dto.response.soft.SoftGroupsDto;
 import ru.solonchev.backend.exception.SoftGroupNotFoundException;
@@ -19,6 +22,7 @@ import ru.solonchev.backend.repository.soft.SoftSkillRepository;
 import ru.solonchev.backend.repository.user.UserRepository;
 
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -62,5 +66,42 @@ public class SoftSkillService {
         ).orElseThrow(SoftSkillMarkNotFoundException::new);
         softSkillMark.setMark(request.mark());
         softSkillMarkRepository.save(softSkillMark);
+    }
+
+    public UserSoftSkillsMarksDto findSoftSkillsWithMarksById(int userId) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<SoftSkillMark> softSkillMarks = user.getSoftSkillMarks();
+        List<SoftGroupWithSkillsMarksDto> softMarks = new LinkedList<>();
+        for (SoftGroup softGroup : softGroupRepository.findAll()) {
+            String softGroupName = softGroup.getGroupName();
+            softMarks.add(
+                    new SoftGroupWithSkillsMarksDto(
+                            softGroupName,
+                            chooseBySoftGroupName(softSkillMarks, softGroup)
+                    )
+            );
+        }
+        return new UserSoftSkillsMarksDto(userId, softMarks);
+    }
+
+    private List<SoftSkillWithMarkDto> chooseBySoftGroupName(
+            List<SoftSkillMark> softSkillMarks,
+            SoftGroup softGroup
+    ) {
+        return softSkillMarks
+                .stream()
+                .filter(s -> s.getSoftSkill()
+                        .getSoftGroup()
+                        .getGroupName()
+                        .equals(softGroup.getGroupName()))
+                .map(x -> new SoftSkillWithMarkDto(
+                        x.getSoftSkill().getId(),
+                        x.getSoftSkill().getSkillName(),
+                        x.getMark()))
+                .sorted((s1, s2) -> s2.mark() - s1.mark())
+                .toList();
+
     }
 }

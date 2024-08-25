@@ -45,7 +45,7 @@ public class SoftSkillController {
 
     @GetMapping("/users/{id}/marks/soft")
     public ResponseEntity<UserSoftSkillsMarksDto> getSoftSkillsMarksByUserId(@PathVariable int id) {
-        return ResponseEntity.ok(userService.findSoftSkillsWithMarksById(id));
+        return ResponseEntity.ok(softSkillService.findSoftSkillsWithMarksById(id));
     }
 }
 

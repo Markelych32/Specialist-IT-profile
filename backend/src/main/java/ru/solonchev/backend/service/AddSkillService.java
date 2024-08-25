@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
+import ru.solonchev.backend.dto.response.mark.add.AddCompetenceWithMarkDto;
+import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
 import ru.solonchev.backend.exception.AddCompetenceNotFoundException;
 import ru.solonchev.backend.exception.UserNotFoundException;
 import ru.solonchev.backend.model.user.AddCompetence;
@@ -41,5 +43,24 @@ public class AddSkillService {
                 .build();
         user.getAddCompetences().add(newAddCompetence);
         userRepository.save(user);
+    }
+
+    public UserAddCompetencesWithMarksDto getAddCompetencesOfUserById(int id) {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserAddCompetencesWithMarksDto(
+                user.getId(),
+                user.getAddCompetences()
+                        .stream()
+                        .map(addCompetence -> new AddCompetenceWithMarkDto(
+                                addCompetence.getId(),
+                                addCompetence.getName(),
+                                addCompetence.getRole().getRoleName(),
+                                addCompetence.getMark()
+                        ))
+                        .sorted((s1, s2) -> s2.mark() - s1.mark())
+                        .toList()
+        );
     }
 }

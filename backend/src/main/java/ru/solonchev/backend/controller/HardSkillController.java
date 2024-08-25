@@ -42,7 +42,7 @@ public class HardSkillController {
 
     @GetMapping("/users/{id}/marks/hard")
     public ResponseEntity<UserHardSkillsMarksDto> getHardSkillsMarksByUserId(@PathVariable int id) {
-        return ResponseEntity.ok(userService.findHardSkillsWithMarksById(id));
+        return ResponseEntity.ok(hardSkillService.findHardSkillsWithMarksById(id));
     }
 
     @PostMapping("/skills/add/suitable")
