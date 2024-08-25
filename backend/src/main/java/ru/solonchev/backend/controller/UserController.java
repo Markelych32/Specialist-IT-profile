@@ -33,5 +33,4 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.findAllUsers());
     }
-
 }

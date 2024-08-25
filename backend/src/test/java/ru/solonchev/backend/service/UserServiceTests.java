@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.solonchev.backend.exception.UserNotFoundException;
+import ru.solonchev.backend.exception.user.UserNotFoundException;
 import ru.solonchev.backend.model.role.Role;
 import ru.solonchev.backend.model.user.Post;
 import ru.solonchev.backend.model.user.User;

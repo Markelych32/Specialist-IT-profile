@@ -1,4 +1,6 @@
-package ru.solonchev.backend.exception;
+package ru.solonchev.backend.exception.hard;
+
+import ru.solonchev.backend.exception.BackendException;
 
 public class HardSkillMarkNotFoundException extends RuntimeException implements BackendException {
     private static final String EXCEPTION_MESSAGE = "Hard Skill Mark not found";

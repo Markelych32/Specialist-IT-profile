@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.solonchev.backend.dto.response.user.GeneralUserInfoDto;
 import ru.solonchev.backend.dto.response.user.UserDto;
 import ru.solonchev.backend.dto.response.user.UserJobInfoDto;
-import ru.solonchev.backend.exception.UserNotFoundException;
+import ru.solonchev.backend.exception.user.UserNotFoundException;
 import ru.solonchev.backend.model.user.User;
 import ru.solonchev.backend.repository.user.UserRepository;
 

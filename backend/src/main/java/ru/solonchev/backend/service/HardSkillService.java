@@ -2,20 +2,18 @@ package ru.solonchev.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.dto.response.hard.*;
 import ru.solonchev.backend.dto.response.mark.hard.HardSkillWithMarkDto;
 import ru.solonchev.backend.dto.response.mark.hard.RoleWithSkillsMarksDto;
 import ru.solonchev.backend.dto.response.mark.hard.UserHardSkillsMarksDto;
-import ru.solonchev.backend.exception.HardSkillMarkNotFoundException;
-import ru.solonchev.backend.exception.HardSkillNotFoundException;
-import ru.solonchev.backend.exception.RoleNotFoundException;
-import ru.solonchev.backend.exception.UserNotFoundException;
+import ru.solonchev.backend.exception.hard.HardSkillMarkNotFoundException;
+import ru.solonchev.backend.exception.hard.HardSkillNotFoundException;
+import ru.solonchev.backend.exception.hard.RoleNotFoundException;
+import ru.solonchev.backend.exception.user.UserNotFoundException;
 import ru.solonchev.backend.model.hard.HardIndicator;
 import ru.solonchev.backend.model.mark.HardSkillMark;
 import ru.solonchev.backend.model.role.Role;
-import ru.solonchev.backend.model.user.AddCompetence;
 import ru.solonchev.backend.model.user.User;
 import ru.solonchev.backend.repository.hard.AddCompetenceRepository;
 import ru.solonchev.backend.repository.hard.HardSkillRepository;
@@ -96,7 +94,7 @@ public class HardSkillService {
     public UserHardSkillsMarksDto findHardSkillsWithMarksById(int id) {
         User user = userRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
         List<HardSkillMark> hardSkillMarks = user.getHardSkillMarks();
         List<RoleWithSkillsMarksDto> hardMarks = new LinkedList<>();
         for (Role role : roleRepository.findAll()) {

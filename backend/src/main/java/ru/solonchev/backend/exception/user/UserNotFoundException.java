@@ -1,4 +1,6 @@
-package ru.solonchev.backend.exception;
+package ru.solonchev.backend.exception.user;
+
+import ru.solonchev.backend.exception.BackendException;
 
 public class UserNotFoundException extends RuntimeException
         implements BackendException {

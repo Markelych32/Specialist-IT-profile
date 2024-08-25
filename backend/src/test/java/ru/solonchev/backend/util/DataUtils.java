@@ -93,4 +93,42 @@ public final class DataUtils {
                 .mark(1)
                 .build();
     }
+
+    public static AddCompetence getJavaProgrammingCompetenceEntityTransient() {
+        return AddCompetence.builder()
+                .user(getStepanEntityPersisted())
+                .name("Java Programming")
+                .role(Role.builder().roleName("Developer").build())
+                .mark(2)
+                .build();
+    }
+
+    public static AddCompetence getJavaProgrammingCompetenceEntityPersisted() {
+        return AddCompetence.builder()
+                .id(2)
+                .user(getStepanEntityPersisted())
+                .name("Java Programming")
+                .role(Role.builder().roleName("Developer").build())
+                .mark(2)
+                .build();
+    }
+
+    public static AddCompetence getJSDevelopmentCompetenceEntityTransient() {
+        return AddCompetence.builder()
+                .user(getNickEntityPersisted())
+                .name("JavScript Development")
+                .role(Role.builder().roleName("Developer").build())
+                .mark(2)
+                .build();
+    }
+
+    public static AddCompetence getJSDevelopmentCompetenceEntityPersisted() {
+        return AddCompetence.builder()
+                .id(3)
+                .user(getNickEntityPersisted())
+                .name("JavScript Development")
+                .role(Role.builder().roleName("Developer").build())
+                .mark(2)
+                .build();
+    }
 }

@@ -8,10 +8,10 @@ import ru.solonchev.backend.dto.response.mark.soft.SoftSkillWithMarkDto;
 import ru.solonchev.backend.dto.response.mark.soft.UserSoftSkillsMarksDto;
 import ru.solonchev.backend.dto.response.soft.SoftGroupWithSkillsDto;
 import ru.solonchev.backend.dto.response.soft.SoftGroupsDto;
-import ru.solonchev.backend.exception.SoftGroupNotFoundException;
-import ru.solonchev.backend.exception.SoftSkillMarkNotFoundException;
-import ru.solonchev.backend.exception.SoftSkillNotFoundException;
-import ru.solonchev.backend.exception.UserNotFoundException;
+import ru.solonchev.backend.exception.soft.SoftGroupNotFoundException;
+import ru.solonchev.backend.exception.soft.SoftSkillMarkNotFoundException;
+import ru.solonchev.backend.exception.soft.SoftSkillNotFoundException;
+import ru.solonchev.backend.exception.user.UserNotFoundException;
 import ru.solonchev.backend.model.mark.SoftSkillMark;
 import ru.solonchev.backend.model.soft.SoftGroup;
 import ru.solonchev.backend.model.soft.SoftSkill;
@@ -102,6 +102,5 @@ public class SoftSkillService {
                         x.getMark()))
                 .sorted((s1, s2) -> s2.mark() - s1.mark())
                 .toList();
-
     }
 }
