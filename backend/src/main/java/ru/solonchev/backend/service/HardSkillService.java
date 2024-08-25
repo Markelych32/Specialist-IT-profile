@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.dto.response.hard.*;
+import ru.solonchev.backend.exception.HardSkillMarkNotFoundException;
+import ru.solonchev.backend.exception.HardSkillNotFoundException;
+import ru.solonchev.backend.exception.RoleNotFoundException;
+import ru.solonchev.backend.exception.UserNotFoundException;
 import ru.solonchev.backend.model.hard.HardIndicator;
 import ru.solonchev.backend.model.mark.HardSkillMark;
 import ru.solonchev.backend.model.role.Role;
@@ -41,7 +45,7 @@ public class HardSkillService {
     }
 
     public RoleWithHardSkillsDto findHardSkillsByRole(String roleName) {
-        Role role = roleRepository.findRoleByRoleName(roleName).orElseThrow(() -> new RuntimeException("Role not found"));
+        Role role = roleRepository.findRoleByRoleName(roleName).orElseThrow(RoleNotFoundException::new);
         List<HardSkillDto> hardSkillDtos = new LinkedList<>();
         role.getHardSkills().forEach((s) -> hardSkillDtos
                 .add(new HardSkillDto(s.getSkillName(),
@@ -77,7 +81,7 @@ public class HardSkillService {
             int userId,
             AppendAddCompetenceRequestDto requestDto) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
         AddCompetence newAddCompetence = AddCompetence.builder()
                 .name(requestDto.name())
                 .user(user)
@@ -89,11 +93,11 @@ public class HardSkillService {
 
     public void changeMarkAtUser(int userId, ChangeMarkSkillRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
 
-        HardSkillMark hardSkillMark = hardSkillMarkRepository.findByHardSkill(
-                hardSkillRepository.findById(request.skillId()).orElseThrow(() -> new RuntimeException("Hard Skill not found"))
-        ).orElseThrow(() -> new RuntimeException("Hard Skill Mark not found"));
+        HardSkillMark hardSkillMark = hardSkillMarkRepository.findByHardSkillAndUser(
+                hardSkillRepository.findById(request.skillId()).orElseThrow(HardSkillNotFoundException::new), user
+        ).orElseThrow(HardSkillMarkNotFoundException::new);
 
         hardSkillMark.setMark(request.mark());
         hardSkillMarkRepository.save(hardSkillMark);
