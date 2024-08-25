@@ -75,7 +75,7 @@ public final class DataUtils {
                 .build();
     }
 
-    public static AddCompetence getAddCompetenceEntityTransient() {
+    public static AddCompetence getAddKotlinCompetenceEntityTransient() {
         return AddCompetence.builder()
                 .user(getStepanEntityPersisted())
                 .name("Разработка на Kotlin")
@@ -84,7 +84,7 @@ public final class DataUtils {
                 .build();
     }
 
-    public static AddCompetence getAddCompetenceEntityPersisted() {
+    public static AddCompetence getAddKotlinCompetenceEntityPersisted() {
         return AddCompetence.builder()
                 .id(1)
                 .user(getStepanEntityPersisted())

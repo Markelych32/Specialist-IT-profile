@@ -48,7 +48,7 @@ public class AddSkillService {
     public UserAddCompetencesWithMarksDto getAddCompetencesOfUserById(int id) {
         User user = userRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
         return new UserAddCompetencesWithMarksDto(
                 user.getId(),
                 user.getAddCompetences()

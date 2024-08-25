@@ -1,5 +1,6 @@
 package ru.solonchev.backend.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import ru.solonchev.backend.repository.role.RoleRepository;
 import ru.solonchev.backend.repository.user.UserRepository;
 import ru.solonchev.backend.util.DataUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +45,7 @@ public class AddSkillServiceTests {
     @BeforeEach
     public void setup() {
         user = DataUtils.getStepanEntityPersisted();
-        addCompetence = DataUtils.getAddCompetenceEntityPersisted();
+        addCompetence = DataUtils.getAddKotlinCompetenceEntityPersisted();
     }
 
     @Test
@@ -130,5 +132,54 @@ public class AddSkillServiceTests {
         assertEquals(user, result.getUser());
         assertEquals(role, result.getRole());
         verify(userRepository).save(user);
+    }
+
+    @Test
+    @DisplayName("Test get all add competences of absent user functionality -> exception")
+    public void givenUserWithIncorrectId_whenGetAllAddCompetencesOfUser_thenExceptionIsThrown() {
+
+        int userId = 1;
+        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        var exception = assertThrows(UserNotFoundException.class,
+                () -> serviceUnderTest.getAddCompetencesOfUserById(userId));
+
+        assertEquals("User not found", exception.message());
+        assertEquals("404", exception.code());
+    }
+
+    @Test
+    @DisplayName("Test get all add competences of user functionality -> success")
+    public void givenUserWithTwoAddCompetences_whenGetAllAddCompetencesOfUser_thenDtoIsReturned() {
+
+        int userId = 1;
+        Role role = Role.builder().roleName("Developer").build();
+        AddCompetence addCompetence1 = AddCompetence.builder()
+                .id(2)
+                .name("Java Programming")
+                .role(role)
+                .mark(1)
+                .build();
+        AddCompetence addCompetence2 = AddCompetence.builder()
+                .id(3)
+                .name("SQL Database")
+                .role(role)
+                .mark(1)
+                .build();
+        User user = User.builder()
+                .id(userId)
+                .addCompetences(List.of(addCompetence1, addCompetence2))
+                .build();
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+
+        var result = serviceUnderTest.getAddCompetencesOfUserById(userId);
+
+        Assertions.assertNotNull(result);
+        assertEquals(userId, result.id());
+        assertEquals(2, result.addCompetences().size());
+        assertEquals("Java Programming", result.addCompetences().get(0).name());
+        assertEquals(1, result.addCompetences().get(0).mark());
+        assertEquals("SQL Database", result.addCompetences().get(1).name());
+        assertEquals(1, result.addCompetences().get(1).mark());
     }
 }
