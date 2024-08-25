@@ -1,10 +1,7 @@
 package ru.solonchev.backend.model.role;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ru.solonchev.backend.model.hard.HardSkill;
 import ru.solonchev.backend.model.user.AddCompetence;
 
@@ -13,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
