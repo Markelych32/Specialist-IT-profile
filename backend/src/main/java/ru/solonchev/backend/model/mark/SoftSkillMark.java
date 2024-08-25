@@ -1,16 +1,14 @@
 package ru.solonchev.backend.model.mark;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ru.solonchev.backend.model.soft.SoftSkill;
 import ru.solonchev.backend.model.user.User;
 
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
