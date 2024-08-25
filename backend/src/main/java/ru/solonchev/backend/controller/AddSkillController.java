@@ -41,7 +41,7 @@ public class AddSkillController {
             @PathVariable(name = "id") int userId,
             @RequestBody AppendAddCompetenceRequestDto requestDto
     ) {
-        hardSkillService.addNewSkillToUser(userId, requestDto);
+        addSkillService.addNewSkillToUser(userId, requestDto);
         return ResponseEntity.ok().build();
     }
 }

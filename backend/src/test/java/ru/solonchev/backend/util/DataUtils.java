@@ -6,6 +6,7 @@ import ru.solonchev.backend.model.user.Post;
 import ru.solonchev.backend.model.user.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public final class DataUtils {
     private DataUtils() {
@@ -23,6 +24,7 @@ public final class DataUtils {
                 .post(new Post(1, "Senior"))
                 .role(Role.builder().roleName("Developer").build())
                 .specialization("Разработка на Go")
+                .addCompetences(new ArrayList<>())
                 .build();
     }
 
@@ -38,6 +40,7 @@ public final class DataUtils {
                 .post(new Post(1, "Senior"))
                 .role(Role.builder().roleName("Developer").build())
                 .specialization("Разработка на Go")
+                .addCompetences(new ArrayList<>())
                 .build();
     }
 

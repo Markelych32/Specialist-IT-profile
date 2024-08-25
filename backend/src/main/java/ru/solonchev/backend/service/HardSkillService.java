@@ -77,19 +77,7 @@ public class HardSkillService {
                 )).toList();
     }
 
-    public void addNewSkillToUser(
-            int userId,
-            AppendAddCompetenceRequestDto requestDto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
-        AddCompetence newAddCompetence = AddCompetence.builder()
-                .name(requestDto.name())
-                .user(user)
-                .role(roleRepository.findById(requestDto.roleId()).orElseThrow((() -> new RuntimeException("Role not found"))))
-                .build();
-        user.getAddCompetences().add(newAddCompetence);
-        userRepository.save(user);
-    }
+
 
     public void changeMarkAtUser(int userId, ChangeMarkSkillRequest request) {
         User user = userRepository.findById(userId)
