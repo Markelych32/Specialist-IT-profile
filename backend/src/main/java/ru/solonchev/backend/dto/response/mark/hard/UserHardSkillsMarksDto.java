@@ -6,7 +6,7 @@ import java.util.List;
 
 public record UserHardSkillsMarksDto(
         @JsonProperty("user_id")
-        int id,
+        int userId,
         @JsonProperty("hard_marks")
         List<RoleWithSkillsMarksDto> hardMarks
 ) {

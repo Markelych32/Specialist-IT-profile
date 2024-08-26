@@ -64,7 +64,7 @@ public class AddSkillServiceTests {
     }
 
     @Test
-    @DisplayName("Test change add skill mark with incorrect user id functionality")
+    @DisplayName("Test change add skill mark with incorrect user userId functionality")
     public void givenUserWithIncorrectId_whenUserChangeAddSkillMark_thenExceptionIsThrown() {
 
         int userId = 1;
@@ -81,7 +81,7 @@ public class AddSkillServiceTests {
     }
 
     @Test
-    @DisplayName("Test change add skill mark with incorrect skill id functionality")
+    @DisplayName("Test change add skill mark with incorrect skill userId functionality")
     public void givenAddCompetenceWithIncorrectId_whenUserChangeAddSkillMark_thenExceptionIsThrown() {
 
         int userId = 1;
@@ -98,7 +98,7 @@ public class AddSkillServiceTests {
     }
 
     @Test
-    @DisplayName("Test append new add skill to user with incorrect id functionality -> exception")
+    @DisplayName("Test append new add skill to user with incorrect userId functionality -> exception")
     public void givenUserWithIncorrectId_whenAppendNewAddCompetence_thenExceptionIsThrown() {
 
         int userId = 1;

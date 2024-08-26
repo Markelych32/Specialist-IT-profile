@@ -108,7 +108,7 @@ public class SoftSkillServiceTests {
     }
 
     @Test
-    @DisplayName("Test change soft skill mark at user with incorrect id functionality -> exception")
+    @DisplayName("Test change soft skill mark at user with incorrect userId functionality -> exception")
     public void givenUserWithIncorrectId_whenChangeMarkSoftSkill_thenExceptionIsThrown() {
 
         int userId = 1;
@@ -123,7 +123,7 @@ public class SoftSkillServiceTests {
     }
 
     @Test
-    @DisplayName("Test change soft skill mark at user with incorrect soft skill id functionality -> exception")
+    @DisplayName("Test change soft skill mark at user with incorrect soft skill userId functionality -> exception")
     public void givenIncorrectSoftSkill_whenChangeMarkSoftSkill_thenExceptionIsThrown() {
 
         int userId = 1;

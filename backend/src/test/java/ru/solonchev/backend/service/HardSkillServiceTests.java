@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
 import ru.solonchev.backend.exception.hard.HardSkillMarkNotFoundException;
@@ -33,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class HardSkillServiceTests {
@@ -207,7 +206,7 @@ public class HardSkillServiceTests {
     }
 
     @Test
-    @DisplayName("Test change mark hard skill at user with incorrect id functionality -> exception")
+    @DisplayName("Test change mark hard skill at user with incorrect userId functionality -> exception")
     public void givenUserWithIncorrectId_whenChangeHardSkillMark_thenExceptionIsThrown() {
 
         int userId = 1;
@@ -272,6 +271,42 @@ public class HardSkillServiceTests {
         serviceUnderTest.changeMarkAtUser(1, request);
 
         assertEquals(3, hardSkillMark.getMark());
-        Mockito.verify(hardSkillMarkRepository, Mockito.times(1)).save(hardSkillMark);
+        verify(hardSkillMarkRepository, times(1)).save(hardSkillMark);
+    }
+
+
+    @Test
+    @DisplayName("Test get hard skills with marks of absent user functionality -> exception")
+    public void givenUserWithIncorrectId_whenGetHardSkillsWithMarks_thenExceptionIsThrow() {
+
+        int userId = 1;
+        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        var exception = assertThrows(UserNotFoundException.class,
+                () -> serviceUnderTest.findHardSkillsWithMarksById(userId));
+
+        assertEquals("User not found", exception.message());
+        assertEquals("404", exception.code());
+    }
+
+    @Test
+    @DisplayName("Test get hard skill with marks of user functionality -> success")
+    public void givenUserWithTwoHardSkill_whenGetHardSkillsWithMarks_thenDtoIsReturned() {
+
+        int userId = 1;
+        User user = User.builder().id(1).build();
+        List<HardSkillMark> hardSkillMarks = Collections.emptyList();
+        user.setHardSkillMarks(hardSkillMarks);
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
+        when(roleRepository.findAll()).thenReturn(List.of(
+                Role.builder().roleName("Developer").build(),
+                Role.builder().roleName("Designer").build()
+        ));
+
+        var result = serviceUnderTest.findHardSkillsWithMarksById(userId);
+
+        assertNotNull(result);
+        assertEquals(1, result.userId());
+        assertEquals(2, result.hardMarks().size());
     }
 }

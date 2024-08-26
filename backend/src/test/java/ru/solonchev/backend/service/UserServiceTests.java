@@ -36,7 +36,7 @@ public class UserServiceTests {
     private UserService serviceUnderTest;
 
     @Test
-    @DisplayName("Test get general info of user with incorrect id functionality -> exception")
+    @DisplayName("Test get general info of user with incorrect userId functionality -> exception")
     public void givenUserWithIncorrectId_whenFindGeneralInfo_thenExceptionIsThrown() {
 
         int userId = 1;
@@ -69,7 +69,7 @@ public class UserServiceTests {
     }
 
     @Test
-    @DisplayName("Test get working info of user with incorrect id functionality -> exception")
+    @DisplayName("Test get working info of user with incorrect userId functionality -> exception")
     public void givenUserWithIncorrectId_whenGetWorkingInfoOfUser_thenExceptionIsThrown() {
 
         int userId = 1;

@@ -1,9 +1,9 @@
 package ru.solonchev.backend.exception.add;
 
-import ru.solonchev.backend.exception.BackendException;
+import ru.solonchev.backend.exception.NotFoundException;
 
 public class AddCompetenceNotFoundException extends RuntimeException
-        implements BackendException {
+        implements NotFoundException {
     private static final String EXCEPTION_MESSAGE = "Additional Competence not found";
 
     @Override
