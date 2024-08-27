@@ -183,4 +183,18 @@ public class SoftSkillServiceTests {
         assertEquals(3, softSkillMark.getMark());
         verify(softSkillMarkRepository, times(1)).save(softSkillMark);
     }
+
+    @Test
+    @DisplayName("Test give soft skills marks of incorrect user functionality -> exception")
+    public void givenUserWithIncorrectId_whenGetAllSoftSkillsWithMark_thenExceptionIsThrown() {
+
+        int userId = 1;
+        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        var exception = assertThrows(UserNotFoundException.class,
+                () -> serviceUnderTest.findSoftSkillsWithMarksById(userId));
+
+        assertEquals("User not found", exception.message());
+        assertEquals("404", exception.code());
+    }
 }

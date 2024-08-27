@@ -71,7 +71,7 @@ public class SoftSkillService {
     public UserSoftSkillsMarksDto findSoftSkillsWithMarksById(int userId) {
         User user = userRepository
                 .findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
         List<SoftSkillMark> softSkillMarks = user.getSoftSkillMarks();
         List<SoftGroupWithSkillsMarksDto> softMarks = new LinkedList<>();
         for (SoftGroup softGroup : softGroupRepository.findAll()) {
