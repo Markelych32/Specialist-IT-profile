@@ -18,7 +18,7 @@ module.exports = {
     proxy: [
       {
         context: ["/specialist-profile"],
-        target: "http://host.docker.internal:8080",
+        target: "127.0.0.1:8080",
         secure: false,
       },
     ],
