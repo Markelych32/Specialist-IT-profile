@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
-import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
+import ru.solonchev.backend.dto.request.ChangeMarkAndRoleRequestDto;
 import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
 import ru.solonchev.backend.service.AddSkillService;
 
@@ -21,7 +21,7 @@ public class AddSkillController {
     @PutMapping("/users/{id}/marks/add")
     public ResponseEntity<Void> changeMarkAddSkill(
             @PathVariable(name = "id") int userId,
-            @RequestBody ChangeMarkSkillRequest request
+            @RequestBody ChangeMarkAndRoleRequestDto request
     ) {
         addSkillService.changeMarkAtUser(userId, request);
         return ResponseEntity.ok().build();

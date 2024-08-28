@@ -1,14 +1,11 @@
 package ru.solonchev.backend.service;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
-import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
+import ru.solonchev.backend.dto.request.ChangeMarkAndRoleRequestDto;
 import ru.solonchev.backend.exception.add.AddCompetenceNotFoundException;
 import ru.solonchev.backend.exception.user.UserNotFoundException;
 import ru.solonchev.backend.model.role.Role;
@@ -50,15 +47,19 @@ public class AddSkillServiceTests {
 
     @Test
     @DisplayName("Test change mark add skill functionality")
-    public void givenAddCompetenceAndUser_whenChangeMark_thenMarksIsChanged() {
+    public void givenAddCompetenceAndUser_whenChangeMarkAndRole_thenMarkAndRoleAreChanged() {
 
-        ChangeMarkSkillRequest request = new ChangeMarkSkillRequest(1, 3);
+        ChangeMarkAndRoleRequestDto request = new ChangeMarkAndRoleRequestDto(1, 3, 2);
+        Role role = Role.builder().id(2).build();
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
-        when(addCompetenceRepository.findById(anyInt())).thenReturn(Optional.of(addCompetence));
+        when(addCompetenceRepository.findByIdAndUser(ArgumentMatchers.anyInt(),
+                ArgumentMatchers.any(User.class))).thenReturn(Optional.of(addCompetence));
+        when(roleRepository.findById(anyInt())).thenReturn(Optional.of(role));
 
         serviceUnderTest.changeMarkAtUser(1, request);
 
         assertEquals(3, addCompetence.getMark());
+        assertEquals(2, addCompetence.getRole().getId());
         verify(addCompetenceRepository, times(1))
                 .save(ArgumentMatchers.any(AddCompetence.class));
     }
@@ -68,7 +69,7 @@ public class AddSkillServiceTests {
     public void givenUserWithIncorrectId_whenUserChangeAddSkillMark_thenExceptionIsThrown() {
 
         int userId = 1;
-        ChangeMarkSkillRequest request = new ChangeMarkSkillRequest(1, 3);
+        ChangeMarkAndRoleRequestDto request = new ChangeMarkAndRoleRequestDto(1, 3, 2);
         when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         UserNotFoundException exception = assertThrows(
@@ -85,9 +86,10 @@ public class AddSkillServiceTests {
     public void givenAddCompetenceWithIncorrectId_whenUserChangeAddSkillMark_thenExceptionIsThrown() {
 
         int userId = 1;
-        ChangeMarkSkillRequest request = new ChangeMarkSkillRequest(1, 3);
+        ChangeMarkAndRoleRequestDto request = new ChangeMarkAndRoleRequestDto(1, 3, 2);
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
-        when(addCompetenceRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(addCompetenceRepository.findByIdAndUser(ArgumentMatchers.anyInt(),
+                ArgumentMatchers.any(User.class))).thenReturn(Optional.empty());
 
         AddCompetenceNotFoundException exception = assertThrows(AddCompetenceNotFoundException.class,
                 () -> serviceUnderTest.changeMarkAtUser(userId, request));

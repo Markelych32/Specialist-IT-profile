@@ -3,10 +3,11 @@ package ru.solonchev.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
-import ru.solonchev.backend.dto.request.ChangeMarkSkillRequest;
+import ru.solonchev.backend.dto.request.ChangeMarkAndRoleRequestDto;
 import ru.solonchev.backend.dto.response.mark.add.AddCompetenceWithMarkDto;
 import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
 import ru.solonchev.backend.exception.add.AddCompetenceNotFoundException;
+import ru.solonchev.backend.exception.hard.RoleNotFoundException;
 import ru.solonchev.backend.exception.user.UserNotFoundException;
 import ru.solonchev.backend.model.user.AddCompetence;
 import ru.solonchev.backend.model.user.User;
@@ -22,12 +23,15 @@ public class AddSkillService {
     private final RoleRepository roleRepository;
     private final AddCompetenceRepository addCompetenceRepository;
 
-    public void changeMarkAtUser(int userId, ChangeMarkSkillRequest request) {
+    public void changeMarkAtUser(int userId, ChangeMarkAndRoleRequestDto request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
-        AddCompetence addCompetence = addCompetenceRepository.findById(request.skillId())
+        AddCompetence addCompetence = addCompetenceRepository.findByIdAndUser(request.addSkillId(), user)
                 .orElseThrow(AddCompetenceNotFoundException::new);
-        addCompetence.setMark(request.mark());
+        addCompetence.setMark(request.newMark());
+        addCompetence.setRole(roleRepository.findById(request.newRoleId()).orElseThrow(
+                RoleNotFoundException::new
+        ));
         addCompetenceRepository.save(addCompetence);
     }
 
