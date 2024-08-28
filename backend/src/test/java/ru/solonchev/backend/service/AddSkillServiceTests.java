@@ -184,4 +184,40 @@ public class AddSkillServiceTests {
         assertEquals("SQL Database", result.addCompetences().get(1).name());
         assertEquals(1, result.addCompetences().get(1).mark());
     }
+
+    @Test
+    @DisplayName("Test delete add competence of absent user functionality -> exception")
+    public void givenUserWithIncorrectId_whenDeleteAddCompetence_thenExceptionIsThrown() {
+
+        int userId = 1;
+        int skillId = 3;
+        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        var exception = assertThrows(UserNotFoundException.class,
+                () -> serviceUnderTest.deleteAddCompetenceAtUser(userId, skillId));
+
+        assertEquals("User not found", exception.message());
+        assertEquals("404", exception.code());
+    }
+
+    @Test
+    @DisplayName("Test delete absent add competence of user functionality -> exception")
+    public void givenAddCompWithIncorrectId_whenDeleteAddCompetence_thenExceptionIsThrown() {
+
+        int userId = 1;
+        int skillId = 3;
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(
+                DataUtils.getStepanEntityPersisted()
+        ));
+        when(addCompetenceRepository.findByIdAndUser(ArgumentMatchers.anyInt(),
+                ArgumentMatchers.any(User.class))).thenReturn(
+                Optional.empty()
+        );
+
+        var exception = assertThrows(AddCompetenceNotFoundException.class,
+                () -> serviceUnderTest.deleteAddCompetenceAtUser(userId, skillId));
+
+        assertEquals("Additional Competence not found", exception.message());
+        assertEquals("404", exception.code());
+    }
 }

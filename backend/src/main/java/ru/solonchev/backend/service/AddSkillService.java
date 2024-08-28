@@ -67,4 +67,14 @@ public class AddSkillService {
                         .toList()
         );
     }
+
+    public void deleteAddCompetenceAtUser(int userId, int skillId) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(UserNotFoundException::new);
+        AddCompetence addCompetence = addCompetenceRepository
+                .findByIdAndUser(skillId, user)
+                .orElseThrow(AddCompetenceNotFoundException::new);
+        addCompetenceRepository.delete(addCompetence);
+    }
 }

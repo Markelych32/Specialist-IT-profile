@@ -40,4 +40,13 @@ public class AddSkillController {
         addSkillService.addNewSkillToUser(userId, requestDto);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/users/{userId}/skills/add/{skillId}")
+    public ResponseEntity<Void> deleteAddCompetenceAtUser(
+            @PathVariable(name = "userId") int userId,
+            @PathVariable(name = "skillId") int skillId
+    ) {
+        addSkillService.deleteAddCompetenceAtUser(userId, skillId);
+        return ResponseEntity.ok().build();
+    }
 }

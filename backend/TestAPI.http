@@ -81,6 +81,9 @@ GET localhost:8080/specialist-profile/users/general/1
 ### Метод получения рабочей информации о пользователе
 GET localhost:8080/specialist-profile/users/working/1
 
+###
+GET localhost:8080/actuator/mappings
+
 
 
 
