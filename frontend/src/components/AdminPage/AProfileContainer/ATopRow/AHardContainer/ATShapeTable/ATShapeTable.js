@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
-import axios from "axios"; // Импорт axios
-import getIconForMark from "../../../../../common/IconsForMarks/IconsForMarks";
-import colorMap from "../../../../../common/ColorMap/ColorMap";
-import T1_House from "../../../../../assets/images/T1_House.png";
-import T1_Computer from "../../../../../assets/images/T1_Computer.png";
+import getIconForMark from "@common/IconsForMarks/IconsForMarks";
+import colorMap from "@common/ColorMap/ColorMap";
+import T1_House from "@assets/images/T1_House.png";
+import T1_Computer from "@assets/images/T1_Computer.png";
 import {
   ErrorMessage,
   SuccessNotificationText,
@@ -20,8 +19,8 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-} from "../../../../../common/ModalWindow/ModalWindow";
-import { updateHardSkill } from "../../../../../../../api/GetPostResponses";
+} from "@common/ModalWindow/ModalWindow";
+import { updateHardSkill } from "@api/GetPostResponses";
 
 const TableWrapper = styled.div`
   display: flex;
@@ -71,7 +70,7 @@ const TableItem = styled.div`
 
 const isCircleZero = (text) => text.includes("⓪");
 
-const TShapeTable = ({ hardMarks = [], onUpdate }) => {
+const TShapeTable = ({ hardMarks = [], userIdNumber, onUpdate }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [selectedLevel, setSelectedLevel] = useState(0);
@@ -100,7 +99,11 @@ const TShapeTable = ({ hardMarks = [], onUpdate }) => {
     if (!selectedSkill) return;
     setIsLoading(true);
     try {
-      await updateHardSkill(1, selectedSkill.skill_id, selectedLevel);
+      await updateHardSkill(
+        userIdNumber,
+        selectedSkill.skill_id,
+        selectedLevel
+      );
       toggleModal();
       if (onUpdate) {
         onUpdate();

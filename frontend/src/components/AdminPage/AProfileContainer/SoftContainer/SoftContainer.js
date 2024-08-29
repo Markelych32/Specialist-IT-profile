@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
-import getIconForMark from "../../../common/IconsForMarks/IconsForMarks";
-import LegendInfo from "../../../common/LegendInfo/LegendInfo";
+import getIconForMark from "@common/IconsForMarks/IconsForMarks";
+import LegendInfo from "@common/LegendInfo/LegendInfo";
 
-import ArrowIconUp from "../../../assets/images/ArrowUp.png";
-import ArrowIcon from "../../../assets/images/ArrowDown.png";
-import LoadingAnim from "../../../assets/images/LoadingAnim.gif";
-import { getSoftInformation } from "../../../../../api/GetPostResponses";
+import ArrowIconUp from "@assets/images/ArrowUp.png";
+import ArrowIcon from "@assets/images/ArrowDown.png";
+import LoadingAnim from "@assets/images/LoadingAnim.gif";
+import { getSoftInformation } from "@api/GetPostResponses";
 
 import {
   ModalOverlay2,
@@ -16,8 +16,8 @@ import {
   ModalInputTextHeader,
   Select,
   SaveButton,
-} from "../../../common/ModalWindow/ModalWindow";
-import { updateSoftSkill } from "../../../../../api/GetPostResponses";
+} from "@common/ModalWindow/ModalWindow";
+import { updateSoftSkill } from "@api/GetPostResponses";
 
 const SoftBlock = styled.div`
   background-color: #eef1f6;
@@ -118,6 +118,9 @@ const SkillItem = styled.div`
     font-size: ${(props) => (props.icon === "❗" ? "18px" : "24px")};
     margin-right: 10px;
   }
+  @media (max-width: 650px) {
+    font-size: 16px;
+  }
 `;
 
 const SoftElem = styled.div`
@@ -181,7 +184,7 @@ const NameSkill = styled.div`
   }
 `;
 
-const SoftContainer = () => {
+const SoftContainer = ({ userIdNumber }) => {
   const [showContent, setShowContent] = useState(false);
   const [showMoreContents, setShowMoreContents] = useState([]);
   const [contentHeight, setContentHeight] = useState(0);
@@ -230,7 +233,11 @@ const SoftContainer = () => {
         };
       });
 
-      await updateSoftSkill(1, selectedEditSkill.skill_id, selectedEditLevel);
+      await updateSoftSkill(
+        userIdNumber,
+        selectedEditSkill.skill_id,
+        selectedEditLevel
+      );
 
       setSoftSkillsData(updatedSkills);
       toggleEditModal();
@@ -363,7 +370,7 @@ const SoftContainer = () => {
               <CloseButton onClick={toggleEditModal}>&times;</CloseButton>
               {selectedEditSkill && (
                 <>
-                  <ModalHeader>Компетенция</ModalHeader>
+                  <ModalHeader>Редактирование софтовой компетенции</ModalHeader>
                   <ModalInputTextHeader>
                     Изменить уровень компетенции:
                   </ModalInputTextHeader>

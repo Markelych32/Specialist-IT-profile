@@ -5,14 +5,14 @@ import ProfileContainer from "./ProfileContainer/ProfileContainer";
 import {
   getGeneralInformation,
   getHardSkillsGeneralInformation,
-} from "../../../api/GetPostResponses";
+} from "@api/GetPostResponses";
 
 import {
   SkeletonContainer,
   SkeletonSpecification,
   SkeletonProfile,
   SkeletonProfileContainer,
-} from "../common/Sceleton/Sceleton";
+} from "@common/Sceleton/Sceleton";
 
 const MainPage = () => {
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const generalInfo = await getGeneralInformation();
+        const generalInfo = await getGeneralInformation(1);
         setUserData({
           name: `${generalInfo.first_name} ${generalInfo.last_name}`,
           birthDate: `${generalInfo.date_of_birth} / ${generalInfo.years}`,

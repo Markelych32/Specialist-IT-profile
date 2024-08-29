@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import UnknownProfile from "../../../../assets/images/UnknownProfile.png";
+import UnknownProfile from "@assets/images/UnknownProfile.png";
 
 const GeneralBlock = styled.div`
   background-color: #eef1f6;

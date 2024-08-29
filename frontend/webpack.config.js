@@ -18,7 +18,7 @@ module.exports = {
     proxy: [
       {
         context: ["/specialist-profile"],
-        target: "127.0.0.1:8080",
+        target: "http://127.0.0.1:8080",
         secure: false,
       },
     ],
@@ -65,5 +65,15 @@ module.exports = {
         ],
       },
     ],
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src/"),
+      "@components": path.resolve(__dirname, "src/components/"),
+      "@common": path.resolve(__dirname, "src/components/common/"),
+      "@assets": path.resolve(__dirname, "src/components/assets/"),
+      "@api": path.resolve(__dirname, "api/"),
+    },
+    extensions: [".js", ".jsx", ".json", ".woff2", ".png", ".gif"],
   },
 };
