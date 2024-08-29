@@ -87,10 +87,10 @@ const HardContainer = ({ specificationsData }) => {
     setShowContent((prevState) => !prevState);
   }, []);
 
-  const handleInputChangeValid = useCallback((event) => {
+  const handleInputChangeValid = (event) => {
     const value = event.target.value;
 
-    const validCharacters = /^[a-zA-Zа-яА-Я0-9()@#%&*\s]*$/;
+    const validCharacters = /^[a-zA-Zа-яА-Я0-9()@#%&-_*\s]*$/;
 
     if (value.length <= 150 && validCharacters.test(value)) {
       setInputValue(value);
@@ -103,7 +103,7 @@ const HardContainer = ({ specificationsData }) => {
 
     setSelectedSkill(null);
     setIsSearching(true);
-  }, []);
+  };
 
   const handleInputChange = useCallback((event) => {
     setInputValue(event.target.value);
@@ -140,7 +140,11 @@ const HardContainer = ({ specificationsData }) => {
       setShowErrorMessageSave(true);
       return;
     }
-
+    if (inputValue.length < 2) {
+      setShowErrorMessage(true);
+      setIsSaveDisabled(true);
+      return;
+    }
     setShowErrorMessageSave(false);
     const isCompetenceExists = Addingcompetences.some(
       (competence) =>
@@ -362,8 +366,8 @@ const HardContainer = ({ specificationsData }) => {
 
           {showErrorMessage && (
             <p style={{ color: "red", fontSize: "15px", marginTop: "5px" }}>
-              Ввод допускает только буквы, цифры и символы ()@#%&* (макс. 150
-              символов).
+              Ввод допускает только буквы, цифры и символы ()@#%&*-_ (от 2 до
+              150 символов).
             </p>
           )}
 
@@ -403,7 +407,7 @@ const HardContainer = ({ specificationsData }) => {
           <SaveButton onClick={handleSave}>Сохранить</SaveButton>
 
           {showErrorMessageSave && (
-            <ErrorMessage>Заполните все данные</ErrorMessage>
+            <ErrorMessage>Заполните все данные корректно</ErrorMessage>
           )}
         </ModalContent>
       </ModalOverlay>
@@ -416,7 +420,7 @@ const HardContainer = ({ specificationsData }) => {
       <FailNotification className={isNotificationVisibleErr ? "show" : ""}>
         <h3>Что-то пошло не так!</h3>
         <FailNotificationText>
-          Компетенция была добавлена ранее!
+          Компетенция уже существует у пользователя!
         </FailNotificationText>
       </FailNotification>
     </HardBlock>
