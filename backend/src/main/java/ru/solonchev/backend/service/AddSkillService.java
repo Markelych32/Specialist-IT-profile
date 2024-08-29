@@ -6,12 +6,15 @@ import ru.solonchev.backend.dto.request.AppendAddCompetenceRequestDto;
 import ru.solonchev.backend.dto.request.ChangeMarkAndRoleRequestDto;
 import ru.solonchev.backend.dto.response.mark.add.AddCompetenceWithMarkDto;
 import ru.solonchev.backend.dto.response.mark.add.UserAddCompetencesWithMarksDto;
+import ru.solonchev.backend.exception.add.AddCompetenceAlreadyExistsException;
+import ru.solonchev.backend.exception.add.AddCompetenceAlreadyInHardSkillsException;
 import ru.solonchev.backend.exception.add.AddCompetenceNotFoundException;
 import ru.solonchev.backend.exception.hard.RoleNotFoundException;
 import ru.solonchev.backend.exception.user.UserNotFoundException;
 import ru.solonchev.backend.model.user.AddCompetence;
 import ru.solonchev.backend.model.user.User;
-import ru.solonchev.backend.repository.hard.AddCompetenceRepository;
+import ru.solonchev.backend.repository.add.AddCompetenceRepository;
+import ru.solonchev.backend.repository.hard.HardSkillRepository;
 import ru.solonchev.backend.repository.role.RoleRepository;
 import ru.solonchev.backend.repository.user.UserRepository;
 
@@ -22,6 +25,7 @@ public class AddSkillService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AddCompetenceRepository addCompetenceRepository;
+    private final HardSkillRepository hardSkillRepository;
 
     public void changeMarkAtUser(int userId, ChangeMarkAndRoleRequestDto request) {
         User user = userRepository.findById(userId)
@@ -40,6 +44,11 @@ public class AddSkillService {
             AppendAddCompetenceRequestDto requestDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
+        if (hardSkillRepository.findBySkillNameIgnoreCase(requestDto.name()).isPresent()) {
+            throw new AddCompetenceAlreadyInHardSkillsException();
+        } else if (addCompetenceRepository.findByNameIgnoreCase(requestDto.name()).isPresent()) {
+            throw new AddCompetenceAlreadyExistsException();
+        }
         AddCompetence newAddCompetence = AddCompetence.builder()
                 .name(requestDto.name())
                 .user(user)
