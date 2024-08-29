@@ -13,11 +13,15 @@ const ContentContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const ProfileContainer = ({ userData, specificationsData }) => {
+const ProfileContainer = ({ userData, specificationsData, userIdNumber }) => {
   return (
     <ContentContainer>
-      <TopRow userData={userData} specificationsData={specificationsData} />
-      <SoftContainer />
+      <TopRow
+        userData={userData}
+        specificationsData={specificationsData}
+        userIdNumber={userIdNumber}
+      />
+      <SoftContainer userIdNumber={userIdNumber} />
     </ContentContainer>
   );
 };

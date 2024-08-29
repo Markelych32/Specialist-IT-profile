@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
-import getIconForMark from "../../../../../common/IconsForMarks/IconsForMarks";
-import colorMap from "../../../../../common/ColorMap/ColorMap";
-import T1_House from "../../../../../assets/images/T1_House.png";
-import T1_Computer from "../../../../../assets/images/T1_Computer.png";
+import getIconForMark from "@common/IconsForMarks/IconsForMarks";
+import colorMap from "@common/ColorMap/ColorMap";
+import T1_House from "@assets/images/T1_House.png";
+import T1_Computer from "@assets/images/T1_Computer.png";
 import {
   ErrorMessage,
   SuccessNotificationText,
@@ -19,7 +19,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-} from "../../../../../common/ModalWindow/ModalWindow";
+} from "@common/ModalWindow/ModalWindow";
 
 const TableWrapper = styled.div`
   display: flex;

@@ -21,22 +21,23 @@ import {
   FailNotification,
   FailNotificationText,
   ModalInputText,
-} from "../../../../common/ModalWindow/ModalWindow";
-import LegendInfo from "../../../../common/LegendInfo/LegendInfo";
+} from "@common/ModalWindow/ModalWindow";
+import LegendInfo from "@common/LegendInfo/LegendInfo";
 import {
   getHardTable,
   getHardAddingItems,
   getSuitableCompetences,
   addSkill,
   updateAddingSkill,
-} from "../../../../../../api/GetPostResponses";
-import getIconForMark from "../../../../common/IconsForMarks/IconsForMarks";
-import colorMap from "../../../../common/ColorMap/ColorMap";
-import ArrowIconUp from "../../../../assets/images/ArrowUp.png";
-import ArrowIcon from "../../../../assets/images/ArrowDown.png";
-import T1_House from "../../../../assets/images/T1_House.png";
-import T1_Computer from "../../../../assets/images/T1_Computer.png";
-import LoadingAnim from "../../../../assets/images/LoadingAnim.gif";
+  deleteSkill,
+} from "@api/GetPostResponses";
+import getIconForMark from "@common/IconsForMarks/IconsForMarks";
+import colorMap from "@common/ColorMap/ColorMap";
+import ArrowIconUp from "@assets/images/ArrowUp.png";
+import ArrowIcon from "@assets/images/ArrowDown.png";
+import T1_House from "@assets/images/T1_House.png";
+import T1_Computer from "@assets/images/T1_Computer.png";
+import LoadingAnim from "@assets/images/LoadingAnim.gif";
 
 const getBackgroundColor = (number) => {
   switch (number) {
@@ -55,7 +56,7 @@ const getBackgroundColor = (number) => {
   }
 };
 
-const HardContainer = ({ specificationsData }) => {
+const HardContainer = ({ specificationsData, userIdNumber }) => {
   const [showContent, setShowContent] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -79,6 +80,12 @@ const HardContainer = ({ specificationsData }) => {
   const [options, setOptions] = useState([]);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [isSearching, setIsSearching] = useState(true);
+  const [selectedRole, setSelectedRole] = useState("Другое");
+
+  const getRoleByColor = (color) => {
+    const role = Object.keys(colorMap).find((key) => colorMap[key] === color);
+    return role || "Другое";
+  };
 
   const toggleEditModal = useCallback(() => {
     setEditModalVisible((prev) => !prev);
@@ -86,7 +93,7 @@ const HardContainer = ({ specificationsData }) => {
   const handleInputChangeValid = (event) => {
     const value = event.target.value;
 
-    const validCharacters = /^[a-zA-Zа-яА-Я0-9\s]*$/;
+    const validCharacters = /^[a-zA-Zа-яА-Я0-9()@#%&*\s]*$/;
 
     if (value.length <= 150 && validCharacters.test(value)) {
       setInputValue(value);
@@ -103,9 +110,12 @@ const HardContainer = ({ specificationsData }) => {
   const handleEditItemClick = useCallback(
     (skill) => {
       if (skill) {
+        const backgroundColor = colorMap[skill.role_name] || "#FFFFFF";
+        const role = getRoleByColor(backgroundColor);
         setSelectedEditSkill(skill);
         setSelectedEditSkillName(skill.name);
         setSelectedEditLevel(skill.mark);
+        setSelectedRole(role);
         toggleEditModal();
       }
     },
@@ -114,6 +124,10 @@ const HardContainer = ({ specificationsData }) => {
 
   const handleEditLevelChange = useCallback((event) => {
     setSelectedEditLevel(Number(event.target.value));
+  }, []);
+
+  const handleRoleChange = useCallback((event) => {
+    setSelectedRole(event.target.value);
   }, []);
 
   const handleEditSave = useCallback(async () => {
@@ -132,7 +146,32 @@ const HardContainer = ({ specificationsData }) => {
       }
 
       const competenceId = competence.id;
-      await updateAddingSkill(1, competenceId, selectedEditLevel);
+      const roleIdFrontNumber = colorMapRole[selectedRole] || 6;
+      let roleId = parseInt(roleIdFrontNumber);
+
+      switch (roleId) {
+        case 1:
+          roleId = 2;
+          break;
+        case 2:
+          roleId = 3;
+          break;
+        case 3:
+          roleId = 1;
+          break;
+        case 4:
+        case 5:
+          break;
+        default:
+          roleId = 6;
+      }
+
+      await updateAddingSkill(
+        userIdNumber,
+        competenceId,
+        selectedEditLevel,
+        parseInt(roleId)
+      );
 
       toggleEditModal();
       fetchHardAdding();
@@ -145,6 +184,7 @@ const HardContainer = ({ specificationsData }) => {
     Addingcompetences,
     selectedEditSkillName,
     selectedEditLevel,
+    selectedRole,
     toggleEditModal,
   ]);
 
@@ -190,6 +230,7 @@ const HardContainer = ({ specificationsData }) => {
     "Прикладной администратор": "5",
     Другое: "6",
   };
+  const normalizeString = (str) => str.replace(/\s+/g, "").toLowerCase();
 
   const handleSave = useCallback(async () => {
     if (!inputValue) {
@@ -198,8 +239,10 @@ const HardContainer = ({ specificationsData }) => {
     }
 
     setShowErrorMessageSave(false);
+
     const isCompetenceExists = Addingcompetences.some(
-      (competence) => competence.name.toLowerCase() === inputValue.toLowerCase()
+      (competence) =>
+        normalizeString(competence.name) === normalizeString(inputValue)
     );
 
     if (isCompetenceExists) {
@@ -212,12 +255,42 @@ const HardContainer = ({ specificationsData }) => {
       }, 4000);
       return;
     }
+    try {
+      hardMarks.some((role) =>
+        role.hard_skills.some((skill) => {
+          normalizeString() === normalizeString();
+          return (
+            normalizeString(skill.skill_name) === normalizeString(inputValue)
+          );
+        })
+      );
+    } catch {
+      setNotificationVisibleErr(true);
+      setInputValue("");
+      setSelect2Value("");
+      setSelectedSkill(null);
+      setTimeout(() => {
+        setNotificationVisibleErr(false);
+      }, 4000);
+      return;
+    }
+
+    // if (isSkillInRoleExists) {
+    //   setNotificationVisibleErr(true);
+    //   setInputValue("");
+    //   setSelect2Value("");
+    //   setSelectedSkill(null);
+    //   setTimeout(() => {
+    //     setNotificationVisibleErr(false);
+    //   }, 4000);
+    //   return;
+    // }
 
     try {
       setNotificationVisible(true);
       const skillId = colorMapRole[select2Value] || "6";
 
-      await addSkill(1, inputValue, skillId);
+      await addSkill(userIdNumber, inputValue, skillId);
       setInputValue("");
       setSelect2Value("");
       setSelectedSkill(null);
@@ -239,6 +312,7 @@ const HardContainer = ({ specificationsData }) => {
     select2Value,
     fetchHardAdding,
     toggleModal,
+    hardMarks,
   ]);
 
   useEffect(() => {
@@ -248,7 +322,7 @@ const HardContainer = ({ specificationsData }) => {
 
         const matchingOption = result.find(
           (option) =>
-            option.skill_name.toLowerCase() === inputValue.toLowerCase()
+            normalizeString(option.skill_name) === normalizeString(inputValue)
         );
 
         if (matchingOption) {
@@ -270,7 +344,8 @@ const HardContainer = ({ specificationsData }) => {
   const handleBlur = useCallback(() => {
     setTimeout(() => {
       const matchingOption = options.find(
-        (option) => option.skill_name.toLowerCase() === inputValue.toLowerCase()
+        (option) =>
+          normalizeString(option.skill_name) === normalizeString(inputValue)
       );
 
       if (matchingOption) {
@@ -304,7 +379,7 @@ const HardContainer = ({ specificationsData }) => {
 
   const fetchHardMarks = useCallback(async () => {
     try {
-      const data = await getHardTable(1);
+      const data = await getHardTable(userIdNumber);
       setHardMarks(data.hard_marks);
     } catch (error) {
       console.error("Ошибка при получении навыков:", error);
@@ -320,7 +395,7 @@ const HardContainer = ({ specificationsData }) => {
 
   const fetchHardAdding = useCallback(async () => {
     try {
-      const data = await getHardAddingItems(1);
+      const data = await getHardAddingItems(userIdNumber);
       setAddingcompetences(data.add_competences);
     } catch (error) {
       console.error("Ошибка при получении навыков:", error);
@@ -333,6 +408,26 @@ const HardContainer = ({ specificationsData }) => {
   useEffect(() => {
     fetchHardAdding();
   }, []);
+
+  const AddingItem = ({ id, number, children, onClick, style }) => (
+    <AddingItemWrapper number={number} style={style}>
+      <CloseIcon
+        onClick={async (e) => {
+          e.stopPropagation();
+          try {
+            await deleteSkill(userIdNumber, id);
+          } catch (error) {
+            console.error("Error deleting skill:", error);
+          } finally {
+            fetchHardAdding();
+          }
+        }}
+      >
+        ×
+      </CloseIcon>
+      <ItemContent onClick={onClick}>{children}</ItemContent>
+    </AddingItemWrapper>
+  );
 
   return (
     <HardBlock>
@@ -348,7 +443,11 @@ const HardContainer = ({ specificationsData }) => {
       </Header>
       {!loading && (
         <Content $show={showContent} height={contentHeight} ref={contentRef}>
-          <TShapeTable hardMarks={hardMarks} onUpdate={fetchHardMarks} />
+          <TShapeTable
+            hardMarks={hardMarks}
+            onUpdate={fetchHardMarks}
+            userIdNumber={userIdNumber}
+          />
           <Line />
           <AddingBlock>
             <AddingHeader>
@@ -356,20 +455,25 @@ const HardContainer = ({ specificationsData }) => {
               <PlusButton onClick={toggleModal}>+</PlusButton>
             </AddingHeader>
             <ContentWrapper>
-              {Addingcompetences.map((competence) => (
-                <AddingItem
-                  key={competence.id}
-                  number={competence.mark}
-                  style={{
-                    backgroundColor:
-                      colorMap[competence.role_name] || colorMap["Пусто"],
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleEditItemClick(competence)}
-                >
-                  {getIconForMark(competence.mark)} {competence.name}
-                </AddingItem>
-              ))}
+              {Addingcompetences.length > 0 ? (
+                Addingcompetences.map((competence) => (
+                  <AddingItem
+                    key={competence.id}
+                    id={competence.id}
+                    number={competence.mark}
+                    onClick={() => handleEditItemClick(competence)}
+                    style={{
+                      backgroundColor:
+                        colorMap[competence.role_name.trim()] ||
+                        colorMap["Пусто"],
+                    }}
+                  >
+                    {getIconForMark(competence.mark)} {competence.name}
+                  </AddingItem>
+                ))
+              ) : (
+                <AddingP>Данных нет</AddingP>
+              )}
             </ContentWrapper>
           </AddingBlock>
 
@@ -399,6 +503,16 @@ const HardContainer = ({ specificationsData }) => {
                   </option>
                 ))}
               </Select>
+              <ModalInputTextHeader>
+                Изменить роль компетенции:
+              </ModalInputTextHeader>
+              <Select value={selectedRole} onChange={handleRoleChange}>
+                {Object.keys(colorMap).map((role) => (
+                  <option key={role} value={role}>
+                    {role}
+                  </option>
+                ))}
+              </Select>
               <SaveButton onClick={handleEditSave}>
                 {isEditLoading ? "Сохранение..." : "Сохранить"}
               </SaveButton>
@@ -425,7 +539,8 @@ const HardContainer = ({ specificationsData }) => {
 
           {showErrorMessage && (
             <p style={{ color: "red", fontSize: "15px", marginTop: "5px" }}>
-              Ввод допускает только буквы и цифры (макс. 150 символов).
+              Ввод допускает только буквы, цифры и символы ()@#%&* (макс. 150
+              символов).
             </p>
           )}
 
@@ -442,7 +557,7 @@ const HardContainer = ({ specificationsData }) => {
             </OptionsList>
           )}
 
-          <Select
+          {/* <Select
             value={selectedSkill ? select2Value : "Другое"}
             onChange={(e) => setSelect2Value(e.target.value)}
             disabled={true}
@@ -460,7 +575,7 @@ const HardContainer = ({ specificationsData }) => {
             <option value="Другое" disabled>
               Другое
             </option>
-          </Select>
+          </Select> */}
 
           <SaveButton onClick={handleSave}>Сохранить</SaveButton>
 
@@ -483,6 +598,35 @@ const HardContainer = ({ specificationsData }) => {
     </HardBlock>
   );
 };
+
+const ItemContent = styled.div`
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+`;
+
+const AddingItemWrapper = styled.div`
+  background-color: ${(props) => getBackgroundColor(props.number)};
+  border-radius: 12px;
+  padding: 20px;
+  color: #000;
+  font-size: 18px;
+  font-family: "Inter", sans-serif;
+  font-weight: 200;
+  margin: 5px;
+  position: relative;
+  cursor: pointer;
+`;
+
+const CloseIcon = styled.span`
+  position: absolute;
+  top: -24px;
+  right: -8px;
+  cursor: pointer;
+  font-size: 45px;
+  color: red;
+  font-weight: bold;
+`;
 
 const HardBlock = styled.div`
   background-color: #eef1f6;
@@ -535,6 +679,21 @@ const AddingHeader = styled.div`
   margin-left: 10px;
   margin-right: 10px;
   font-size: 18px;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const AddingP = styled.div`
+  color: #000000;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 16px;
   text-align: left;
   width: 100%;
   display: flex;

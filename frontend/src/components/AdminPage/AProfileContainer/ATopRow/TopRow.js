@@ -3,11 +3,11 @@ import styled from "styled-components";
 import GeneralContainer from "./GeneralContainer/GeneralContainer.js";
 import HardContainer from "./AHardContainer/AHardContainer.js";
 
-const TopRow = ({ userData, specificationsData }) => {
+const TopRow = ({ userData, specificationsData, userIdNumber }) => {
   return (
     <TopRowBlock>
       <GeneralContainer userData={userData} />
-      <HardContainer specificationsData={specificationsData} />
+      <HardContainer specificationsData={specificationsData} userIdNumber={userIdNumber} />
     </TopRowBlock>
   );
 };

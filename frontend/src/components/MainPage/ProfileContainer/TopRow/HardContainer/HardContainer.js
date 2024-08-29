@@ -20,21 +20,21 @@ import {
   OptionItem,
   FailNotification,
   FailNotificationText,
-} from "../../../../common/ModalWindow/ModalWindow";
-import LegendInfo from "../../../../common/LegendInfo/LegendInfo";
+} from "@common/ModalWindow/ModalWindow";
+import LegendInfo from "@common/LegendInfo/LegendInfo";
 import {
   getHardTable,
   getHardAddingItems,
   getSuitableCompetences,
   addSkill,
-} from "../../../../../../api/GetPostResponses";
-import getIconForMark from "../../../../common/IconsForMarks/IconsForMarks";
-import colorMap from "../../../../common/ColorMap/ColorMap";
-import ArrowIconUp from "../../../../assets/images/ArrowUp.png";
-import ArrowIcon from "../../../../assets/images/ArrowDown.png";
-import T1_House from "../../../../assets/images/T1_House.png";
-import T1_Computer from "../../../../assets/images/T1_Computer.png";
-import LoadingAnim from "../../../../assets/images/LoadingAnim.gif";
+} from "@api/GetPostResponses";
+import getIconForMark from "@common/IconsForMarks/IconsForMarks";
+import colorMap from "@common/ColorMap/ColorMap";
+import ArrowIconUp from "@assets/images/ArrowUp.png";
+import ArrowIcon from "@assets/images/ArrowDown.png";
+import T1_House from "@assets/images/T1_House.png";
+import T1_Computer from "@assets/images/T1_Computer.png";
+import LoadingAnim from "@assets/images/LoadingAnim.gif";
 
 const getBackgroundColor = (number) => {
   switch (number) {
@@ -82,6 +82,7 @@ const HardContainer = ({ specificationsData }) => {
     "Прикладной администратор": "5",
     Другое: "6",
   };
+  const normalizeString = (str) => str.replace(/\s+/g, "").toLowerCase();
   const toggleContent = useCallback(() => {
     setShowContent((prevState) => !prevState);
   }, []);
@@ -89,7 +90,7 @@ const HardContainer = ({ specificationsData }) => {
   const handleInputChangeValid = useCallback((event) => {
     const value = event.target.value;
 
-    const validCharacters = /^[a-zA-Zа-яА-Я0-9\s]*$/;
+    const validCharacters = /^[a-zA-Zа-яА-Я0-9()@#%&*\s]*$/;
 
     if (value.length <= 150 && validCharacters.test(value)) {
       setInputValue(value);
@@ -142,10 +143,30 @@ const HardContainer = ({ specificationsData }) => {
 
     setShowErrorMessageSave(false);
     const isCompetenceExists = Addingcompetences.some(
-      (competence) => competence.name.toLowerCase() === inputValue.toLowerCase()
+      (competence) =>
+        normalizeString(competence.name) === normalizeString(inputValue)
     );
 
     if (isCompetenceExists) {
+      setNotificationVisibleErr(true);
+      setInputValue("");
+      setSelect2Value("");
+      setSelectedSkill(null);
+      setTimeout(() => {
+        setNotificationVisibleErr(false);
+      }, 4000);
+      return;
+    }
+
+    const isSkillInRoleExists = hardMarks.some((role) =>
+      role.hard_skills.some((skill) => {
+        return (
+          normalizeString(skill.skill_name) === normalizeString(inputValue)
+        );
+      })
+    );
+
+    if (isSkillInRoleExists) {
       setNotificationVisibleErr(true);
       setInputValue("");
       setSelect2Value("");
@@ -185,7 +206,8 @@ const HardContainer = ({ specificationsData }) => {
   const handleBlur = useCallback(() => {
     setTimeout(() => {
       const matchingOption = options.find(
-        (option) => option.skill_name.toLowerCase() === inputValue.toLowerCase()
+        (option) =>
+          normalizeString(option.skill_name) === normalizeString(inputValue)
       );
 
       if (matchingOption) {
@@ -230,7 +252,7 @@ const HardContainer = ({ specificationsData }) => {
 
         const matchingOption = result.find(
           (option) =>
-            option.skill_name.toLowerCase() === inputValue.toLowerCase()
+            normalizeString(option.skill_name) === normalizeString(inputValue)
         );
 
         if (matchingOption) {
@@ -297,20 +319,25 @@ const HardContainer = ({ specificationsData }) => {
               <PlusButton onClick={toggleModalMain}>+</PlusButton>
             </AddingHeader>
             <ContentWrapper>
-              {Addingcompetences &&
-                Addingcompetences.length > 0 &&
+              {Addingcompetences.length > 0 ? (
                 Addingcompetences.map((competence) => (
                   <AddingItem
                     key={competence.id}
+                    id={competence.id}
                     number={competence.mark}
+                    onClick={() => handleEditItemClick(competence)}
                     style={{
                       backgroundColor:
-                        colorMap[competence.role_name] || colorMap["Пусто"],
+                        colorMap[competence.role_name.trim()] ||
+                        colorMap["Пусто"],
                     }}
                   >
                     {getIconForMark(competence.mark)} {competence.name}
                   </AddingItem>
-                ))}
+                ))
+              ) : (
+                <AddingP>Данных нет</AddingP>
+              )}
             </ContentWrapper>
           </AddingBlock>
           <Line />
@@ -335,7 +362,8 @@ const HardContainer = ({ specificationsData }) => {
 
           {showErrorMessage && (
             <p style={{ color: "red", fontSize: "15px", marginTop: "5px" }}>
-              Ввод допускает только буквы и цифры (макс. 150 символов).
+              Ввод допускает только буквы, цифры и символы ()@#%&* (макс. 150
+              символов).
             </p>
           )}
 
@@ -352,7 +380,7 @@ const HardContainer = ({ specificationsData }) => {
             </OptionsList>
           )}
 
-          <Select
+          {/* <Select
             value={selectedSkill ? select2Value : "Другое"}
             onChange={(e) => setSelect2Value(e.target.value)}
             disabled={true}
@@ -370,7 +398,7 @@ const HardContainer = ({ specificationsData }) => {
             <option value="Другое" disabled>
               Другое
             </option>{" "}
-          </Select>
+          </Select> */}
 
           <SaveButton onClick={handleSave}>Сохранить</SaveButton>
 
@@ -446,6 +474,21 @@ const AddingHeader = styled.div`
   margin-left: 10px;
   margin-right: 10px;
   font-size: 18px;
+  text-align: left;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const AddingP = styled.div`
+  color: #000000;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 16px;
   text-align: left;
   width: 100%;
   display: flex;
