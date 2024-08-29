@@ -1,8 +1,10 @@
 import axios from "axios";
 
-export const getGeneralInformation = async () => {
+export const getGeneralInformation = async (userId) => {
   try {
-    const response = await axios.get("/specialist-profile/users/general/1");
+    const response = await axios.get(
+      `/specialist-profile/users/general/${userId}`
+    );
     return response.data;
   } catch (error) {
     console.error("Ошибка при получении направлений:", error);
@@ -73,6 +75,27 @@ export const getSuitableCompetences = async (competenceName) => {
   }
 };
 
+export const getSuitableProfiles = async (Name) => {
+  try {
+    const response = await axios.post(
+      "/specialist-profile/users",
+      {
+        full_name: Name,
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при получении подходящих вариантов:", error);
+    return [];
+  }
+};
+
 export const updateHardSkill = async (userId, skillId, mark) => {
   try {
     const response = await axios.put(
@@ -95,13 +118,14 @@ export const updateHardSkill = async (userId, skillId, mark) => {
   }
 };
 
-export const updateAddingSkill = async (userId, skillId, mark) => {
+export const updateAddingSkill = async (userId, skillId, mark, roleID) => {
   try {
     const response = await axios.put(
       `/specialist-profile/users/${userId}/marks/add`,
       {
         skill_id: skillId,
         mark: mark,
+        new_role_id: roleID,
       },
       {
         headers: {
@@ -113,6 +137,23 @@ export const updateAddingSkill = async (userId, skillId, mark) => {
     return response.data;
   } catch (error) {
     console.error("Ошибка при обновлении уровня компетенции:", error);
+    throw error;
+  }
+};
+
+export const deleteSkill = async (userId, skillId) => {
+  try {
+    const response = await axios.delete(
+      `/specialist-profile/users/${userId}/skills/add/${skillId}`,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка при удалении навыка:", error);
     throw error;
   }
 };

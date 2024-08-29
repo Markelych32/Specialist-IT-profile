@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import getIconForMark from "../../../common/IconsForMarks/IconsForMarks";
-import LegendInfo from "../../../common/LegendInfo/LegendInfo";
+import getIconForMark from "@common/IconsForMarks/IconsForMarks";
+import LegendInfo from "@common/LegendInfo/LegendInfo";
 
-import ArrowIconUp from "../../../assets/images/ArrowUp.png";
-import ArrowIcon from "../../../assets/images/ArrowDown.png";
-import LoadingAnim from "../../../assets/images/LoadingAnim.gif";
-import { getSoftInformation } from "../../../../../api/GetPostResponses";
+import ArrowIconUp from "@assets/images/ArrowUp.png";
+import ArrowIcon from "@assets/images/ArrowDown.png";
+import LoadingAnim from "@assets/images/LoadingAnim.gif";
+import { getSoftInformation } from "@api/GetPostResponses";
 
 const SoftBlock = styled.div`
   background-color: #eef1f6;
@@ -106,6 +106,9 @@ const SkillItem = styled.div`
     content: "${(props) => props.icon}";
     font-size: ${(props) => (props.icon === "❗" ? "18px" : "24px")};
     margin-right: 10px;
+  }
+  @media (max-width: 650px) {
+    font-size: 16px;
   }
 `;
 
