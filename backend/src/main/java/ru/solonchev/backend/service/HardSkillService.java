@@ -15,7 +15,7 @@ import ru.solonchev.backend.model.hard.HardIndicator;
 import ru.solonchev.backend.model.mark.HardSkillMark;
 import ru.solonchev.backend.model.role.Role;
 import ru.solonchev.backend.model.user.User;
-import ru.solonchev.backend.repository.hard.AddCompetenceRepository;
+import ru.solonchev.backend.repository.add.AddCompetenceRepository;
 import ru.solonchev.backend.repository.hard.HardSkillRepository;
 import ru.solonchev.backend.repository.mark.HardSkillMarkRepository;
 import ru.solonchev.backend.repository.role.RoleRepository;
