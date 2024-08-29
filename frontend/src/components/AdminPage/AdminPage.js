@@ -123,8 +123,10 @@ const AdminPage = () => {
   };
 
   const handleUserSelect = (userId) => {
+    setHasSearched(false);
     fetchUserData(userId);
     setSearchQuery("");
+    setSearchResults([]);
   };
 
   return (
@@ -137,10 +139,9 @@ const AdminPage = () => {
         onChange={handleSearchInputChange}
       />
       {searching && !userSelected && <Message>Поиск данных...</Message>}
-      {!searching &&
-        hasSearched &&
-        searchResults.length === 0 &&
-        !userSelected && <Message>Пользователь не найден</Message>}
+      {!searching && hasSearched && searchResults.length === 0 && (
+        <Message>Пользователь не найден</Message>
+      )}
       {searchResults.length > 0 && !userSelected && !searching && (
         <SearchResultsContainer>
           {searchResults.map((user) => (
