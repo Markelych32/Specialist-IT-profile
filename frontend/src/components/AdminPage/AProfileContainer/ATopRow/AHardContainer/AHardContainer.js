@@ -283,7 +283,7 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
       setNotificationVisible(true);
       const skillId = colorMapRole[select2Value] || "6";
 
-      await addSkill(userId, inputValue, skillId);
+      await addSkill(userIdNumber, inputValue, skillId);
 
       setTimeout(() => {
         setNotificationVisible(false);
