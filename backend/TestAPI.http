@@ -81,7 +81,15 @@ GET localhost:8080/specialist-profile/users/general/1
 ### Метод получения рабочей информации о пользователе
 GET localhost:8080/specialist-profile/users/working/1
 
-###
+### Поиск по ФИО
+POST localhost:8080/specialist-profile/users
+Content-Type: application/json
+
+{
+  "full_name": "Степ"
+}
+
+### CHECK BACKEND CONDITION
 GET localhost:8080/actuator/mappings
 
 

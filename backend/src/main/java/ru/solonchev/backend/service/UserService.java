@@ -50,18 +50,14 @@ public class UserService {
         return userRepository
                 .findAll()
                 .stream()
-                .map(user -> new UserDto(
-                        user.getId(),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getPatronymic(),
-                        user.getDateOfBirth(),
-                        user.getGender(),
-                        user.getLocation(),
-                        user.getPost().getPostName(),
-                        user.getRole().getRoleName(),
-                        user.getSpecialization()
-                ))
+                .map(this::fromEntityToDto)
+                .toList();
+    }
+
+    public List<UserDto> findAllUsersByFullName(String fullName) {
+        return userRepository.findByFullName(fullName)
+                .stream()
+                .map(this::fromEntityToDto)
                 .toList();
     }
 
@@ -78,5 +74,19 @@ public class UserService {
         } else {
             return "лет";
         }
+    }
+
+    private UserDto fromEntityToDto(User user) {
+        return new UserDto(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPatronymic(),
+                user.getDateOfBirth(),
+                user.getGender(),
+                user.getLocation(),
+                user.getPost().getPostName(),
+                user.getRole().getRoleName(),
+                user.getSpecialization());
     }
 }
