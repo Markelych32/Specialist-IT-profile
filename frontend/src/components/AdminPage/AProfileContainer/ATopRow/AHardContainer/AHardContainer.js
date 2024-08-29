@@ -93,7 +93,7 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
   const handleInputChangeValid = (event) => {
     const value = event.target.value;
 
-    const validCharacters = /^[a-zA-Zа-яА-Я0-9()@#%&*\s]*$/;
+    const validCharacters = /^[a-zA-Zа-яА-Я0-9()@#%&-_*\s]*$/;
 
     if (value.length <= 150 && validCharacters.test(value)) {
       setInputValue(value);
@@ -107,6 +107,7 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
     setSelectedSkill(null);
     setIsSearching(true);
   };
+
   const handleEditItemClick = useCallback(
     (skill) => {
       if (skill) {
@@ -233,13 +234,16 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
   const normalizeString = (str) => str.replace(/\s+/g, "").toLowerCase();
 
   const handleSave = useCallback(async () => {
-    if (!inputValue) {
+    if (!inputValue || showErrorMessage) {
       setShowErrorMessageSave(true);
       return;
     }
-
+    if (inputValue.length < 2) {
+      setShowErrorMessage(true);
+      setIsSaveDisabled(true);
+      return;
+    }
     setShowErrorMessageSave(false);
-
     const isCompetenceExists = Addingcompetences.some(
       (competence) =>
         normalizeString(competence.name) === normalizeString(inputValue)
@@ -255,16 +259,16 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
       }, 4000);
       return;
     }
-    try {
-      hardMarks.some((role) =>
-        role.hard_skills.some((skill) => {
-          normalizeString() === normalizeString();
-          return (
-            normalizeString(skill.skill_name) === normalizeString(inputValue)
-          );
-        })
-      );
-    } catch {
+
+    const isSkillInRoleExists = hardMarks.some((role) =>
+      role.hard_skills.some((skill) => {
+        return (
+          normalizeString(skill.skill_name) === normalizeString(inputValue)
+        );
+      })
+    );
+
+    if (isSkillInRoleExists) {
       setNotificationVisibleErr(true);
       setInputValue("");
       setSelect2Value("");
@@ -275,25 +279,12 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
       return;
     }
 
-    // if (isSkillInRoleExists) {
-    //   setNotificationVisibleErr(true);
-    //   setInputValue("");
-    //   setSelect2Value("");
-    //   setSelectedSkill(null);
-    //   setTimeout(() => {
-    //     setNotificationVisibleErr(false);
-    //   }, 4000);
-    //   return;
-    // }
-
     try {
       setNotificationVisible(true);
       const skillId = colorMapRole[select2Value] || "6";
 
-      await addSkill(userIdNumber, inputValue, skillId);
-      setInputValue("");
-      setSelect2Value("");
-      setSelectedSkill(null);
+      await addSkill(1, inputValue, skillId);
+
       setTimeout(() => {
         setNotificationVisible(false);
       }, 4000);
@@ -539,8 +530,8 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
 
           {showErrorMessage && (
             <p style={{ color: "red", fontSize: "15px", marginTop: "5px" }}>
-              Ввод допускает только буквы, цифры и символы ()@#%&* (макс. 150
-              символов).
+              Ввод допускает только буквы, цифры и символы ()@#%&*-_ (от 2 до
+              150 символов).
             </p>
           )}
 
@@ -580,7 +571,7 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
           <SaveButton onClick={handleSave}>Сохранить</SaveButton>
 
           {showErrorMessageSave && (
-            <ErrorMessage>Заполните все данные</ErrorMessage>
+            <ErrorMessage>Заполните все данные корректно</ErrorMessage>
           )}
         </ModalContent>
       </ModalOverlay2>
@@ -592,7 +583,7 @@ const HardContainer = ({ specificationsData, userIdNumber }) => {
       <FailNotification className={isNotificationVisibleErr ? "show" : ""}>
         <h3>Что-то пошло не так!</h3>
         <FailNotificationText>
-          Компетенция была добавлена ранее!
+          Компетенция уже существует у пользователя!
         </FailNotificationText>
       </FailNotification>
     </HardBlock>
