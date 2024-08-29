@@ -11,6 +11,7 @@ import ru.solonchev.backend.repository.user.UserRepository;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -50,18 +51,19 @@ public class UserService {
         return userRepository
                 .findAll()
                 .stream()
-                .map(user -> new UserDto(
-                        user.getId(),
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getPatronymic(),
-                        user.getDateOfBirth(),
-                        user.getGender(),
-                        user.getLocation(),
-                        user.getPost().getPostName(),
-                        user.getRole().getRoleName(),
-                        user.getSpecialization()
-                ))
+                .map(this::fromEntityToDto)
+                .toList();
+    }
+
+    public List<UserDto> findAllUsersByFullName(String fullName) {
+        String[] partsOfFullName = Arrays.stream(fullName.trim().split("\\s+"))
+                .map(String::trim)
+                .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
+                .toArray(String[]::new);
+        fullName = String.join(" ", partsOfFullName);
+        return userRepository.findByFullName(fullName)
+                .stream()
+                .map(this::fromEntityToDto)
                 .toList();
     }
 
@@ -78,5 +80,19 @@ public class UserService {
         } else {
             return "лет";
         }
+    }
+
+    private UserDto fromEntityToDto(User user) {
+        return new UserDto(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPatronymic(),
+                user.getDateOfBirth(),
+                user.getGender(),
+                user.getLocation(),
+                user.getPost().getPostName(),
+                user.getRole().getRoleName(),
+                user.getSpecialization());
     }
 }

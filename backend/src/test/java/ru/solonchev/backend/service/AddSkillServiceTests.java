@@ -11,7 +11,7 @@ import ru.solonchev.backend.exception.user.UserNotFoundException;
 import ru.solonchev.backend.model.role.Role;
 import ru.solonchev.backend.model.user.AddCompetence;
 import ru.solonchev.backend.model.user.User;
-import ru.solonchev.backend.repository.hard.AddCompetenceRepository;
+import ru.solonchev.backend.repository.add.AddCompetenceRepository;
 import ru.solonchev.backend.repository.role.RoleRepository;
 import ru.solonchev.backend.repository.user.UserRepository;
 import ru.solonchev.backend.util.DataUtils;

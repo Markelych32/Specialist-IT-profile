@@ -1,4 +1,4 @@
-package ru.solonchev.backend.repository.hard;
+package ru.solonchev.backend.repository.add;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +14,6 @@ public interface AddCompetenceRepository extends JpaRepository<AddCompetence, In
     List<AddCompetence> findByNameContainingIgnoreCase(String partName);
 
     Optional<AddCompetence> findByIdAndUser(int id, User user);
+
+    Optional<AddCompetence> findByNameIgnoreCase(String name);
 }

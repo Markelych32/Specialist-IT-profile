@@ -3,6 +3,7 @@ package ru.solonchev.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.solonchev.backend.dto.request.FindUserByFullNameRequestDto;
 import ru.solonchev.backend.dto.response.user.GeneralUserInfoDto;
 import ru.solonchev.backend.dto.response.user.UserDto;
 import ru.solonchev.backend.dto.response.user.UserJobInfoDto;
@@ -32,5 +33,14 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.findAllUsers());
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<List<UserDto>> getAllUsersByFullName(
+            @RequestBody FindUserByFullNameRequestDto request
+    ) {
+        return ResponseEntity.ok(
+                userService.findAllUsersByFullName(request.fullName())
+        );
     }
 }
