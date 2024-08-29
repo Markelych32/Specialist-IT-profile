@@ -11,6 +11,7 @@ import ru.solonchev.backend.repository.user.UserRepository;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -55,6 +56,11 @@ public class UserService {
     }
 
     public List<UserDto> findAllUsersByFullName(String fullName) {
+        String[] partsOfFullName = Arrays.stream(fullName.trim().split("\\s+"))
+                .map(String::trim)
+                .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
+                .toArray(String[]::new);
+        fullName = String.join(" ", partsOfFullName);
         return userRepository.findByFullName(fullName)
                 .stream()
                 .map(this::fromEntityToDto)
