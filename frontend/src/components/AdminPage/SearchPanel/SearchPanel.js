@@ -26,7 +26,7 @@ export const SearchHeader = styled.div`
 `;
 
 const SearchContainer = styled.div`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
