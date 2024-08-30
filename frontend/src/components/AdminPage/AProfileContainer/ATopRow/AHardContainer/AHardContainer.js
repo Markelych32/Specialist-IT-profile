@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useId } from "react";
 import styled from "styled-components";
 import TShapeTable from "./ATShapeTable/ATShapeTable";
 import SpecificationCards from "./SpecificationCards/SpecificationCards";
