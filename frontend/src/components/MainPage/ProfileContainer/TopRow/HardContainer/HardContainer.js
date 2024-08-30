@@ -329,7 +329,6 @@ const HardContainer = ({ specificationsData }) => {
                     key={competence.id}
                     id={competence.id}
                     number={competence.mark}
-                    onClick={() => handleEditItemClick(competence)}
                     style={{
                       backgroundColor:
                         colorMap[competence.role_name.trim()] ||
