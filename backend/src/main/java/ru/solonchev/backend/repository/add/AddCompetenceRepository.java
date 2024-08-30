@@ -15,5 +15,5 @@ public interface AddCompetenceRepository extends JpaRepository<AddCompetence, In
 
     Optional<AddCompetence> findByIdAndUser(int id, User user);
 
-    Optional<AddCompetence> findByNameIgnoreCase(String name);
+    Optional<AddCompetence> findByNameIgnoreCaseAndUser(String name, User user);
 }

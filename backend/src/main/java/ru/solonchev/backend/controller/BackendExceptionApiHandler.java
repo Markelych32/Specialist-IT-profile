@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.solonchev.backend.dto.response.error.ErrorDto;
+import ru.solonchev.backend.exception.BackendException;
 import ru.solonchev.backend.exception.NotFoundException;
+import ru.solonchev.backend.exception.add.AddCompetenceAlreadyExistsException;
 import ru.solonchev.backend.exception.add.AddCompetenceNotFoundException;
 import ru.solonchev.backend.exception.hard.HardSkillMarkNotFoundException;
 import ru.solonchev.backend.exception.hard.HardSkillNotFoundException;
@@ -25,6 +27,11 @@ public class BackendExceptionApiHandler {
             SoftSkillMarkNotFoundException.class, UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorDto entityNotFound(NotFoundException exception) {
+        return exception.fromBackendExceptionToErrorDto();
+    }
+    @ExceptionHandler(AddCompetenceAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto addCompetenceAlreadyExists(BackendException exception) {
         return exception.fromBackendExceptionToErrorDto();
     }
 }

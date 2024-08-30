@@ -23,6 +23,7 @@ import ru.solonchev.backend.repository.user.UserRepository;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -75,7 +76,15 @@ public class HardSkillService {
                         c.getId(),
                         c.getName(),
                         c.getRole().getRoleName()
-                )).toList();
+                ))
+                .collect(Collectors.toMap(
+                        SuitableRoleDto::skillName,
+                        dto -> dto,
+                        (existing, replacement) -> existing
+                ))
+                .values()
+                .stream()
+                .toList();
     }
 
 

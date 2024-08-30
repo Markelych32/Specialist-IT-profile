@@ -46,13 +46,13 @@ public class AddSkillService {
                 .orElseThrow(UserNotFoundException::new);
         if (hardSkillRepository.findBySkillNameIgnoreCase(requestDto.name()).isPresent()) {
             throw new AddCompetenceAlreadyInHardSkillsException();
-        } else if (addCompetenceRepository.findByNameIgnoreCase(requestDto.name()).isPresent()) {
+        } else if (addCompetenceRepository.findByNameIgnoreCaseAndUser(requestDto.name(), user).isPresent()) {
             throw new AddCompetenceAlreadyExistsException();
         }
         AddCompetence newAddCompetence = AddCompetence.builder()
                 .name(requestDto.name())
                 .user(user)
-                .role(roleRepository.findById(requestDto.roleId()).orElseThrow((() -> new RuntimeException("Role not found"))))
+                .role(roleRepository.findById(requestDto.roleId()).orElseThrow(RoleNotFoundException::new))
                 .build();
         user.getAddCompetences().add(newAddCompetence);
         userRepository.save(user);
