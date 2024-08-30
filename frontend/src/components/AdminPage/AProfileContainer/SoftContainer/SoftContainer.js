@@ -6,7 +6,7 @@ import LegendInfo from "@common/LegendInfo/LegendInfo";
 import ArrowIconUp from "@assets/images/ArrowUp.png";
 import ArrowIcon from "@assets/images/ArrowDown.png";
 import LoadingAnim from "@assets/images/LoadingAnim.gif";
-import { getSoftInformation } from "@api/GetPostResponses";
+import { getSoftInformation, updateSoftSkill } from "@api/GetPostResponses";
 
 import {
   ModalOverlay2,
@@ -17,7 +17,6 @@ import {
   Select,
   SaveButton,
 } from "@common/ModalWindow/ModalWindow";
-import { updateSoftSkill } from "@api/GetPostResponses";
 
 const SoftBlock = styled.div`
   background-color: #eef1f6;
@@ -261,7 +260,7 @@ const SoftContainer = ({ userIdNumber }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getSoftInformation(1);
+        const data = await getSoftInformation(userIdNumber);
         if (data && data.soft_marks) {
           setSoftSkillsData(data.soft_marks);
           setShowMoreContents(new Array(data.soft_marks.length).fill(false));
