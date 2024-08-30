@@ -11,7 +11,8 @@ import ru.solonchev.backend.service.AddSkillService;
 @RestController
 @RequestMapping("/specialist-profile")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://10.4.56.68:9000", allowedHeaders = "*",
+@CrossOrigin(origins = {"http://10.4.56.68:9000", "http://10.4.56.60:8081"
+        , "http://85.192.63.64:1194"}, allowedHeaders = "*",
         methods = {RequestMethod.GET, RequestMethod.POST,
                 RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class AddSkillController {
